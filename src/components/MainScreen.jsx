@@ -189,10 +189,15 @@ export default function MainScreen() {
           playClick();
           setShowInventory(true);
         }}
-        className="absolute bottom-6 left-6 z-20 flex items-center gap-2 px-4 py-2 rounded-lg text-[#632911] font-[sf-heavy] bg-white/80 backdrop-blur shadow-lg hover:scale-105 transition"
+        className="absolute bottom-8 left-6 z-20 flex flex-col pb-5 pt-10 px-7 cursor-pointer font-[sf-heavy] text-[#632911] border-[3.5px] border-[#632911] bg-gradient-to-b from-[#FEC547] to-[#F3A01C] shadow-[0_0.4rem_0_rgba(62,22,1,1),inset_0_0.4rem_0_rgba(255,246,133,0.5),inset_0_-0.4rem_0_rgba(207,102,8,0.6)] rounded-[30px] border-radius-smooth hover:scale-105 transition-transform duration-300 ease-out items-start"
       >
-        <img src={inventoryIcon} alt="Inventory" className="w-6 h-6" />
-        <span>OPEN INVENTORY</span>
+        <img
+          src={inventoryIcon}
+          alt="Inventory"
+          className="w-25 h-25 absolute -translate-y-20 translate-x-20"
+        />
+        <span className="text-[#CF6F00]">OPEN</span>
+        <span className="text-3xl">INVENTORY</span>
       </button>
 
       <button
@@ -200,10 +205,15 @@ export default function MainScreen() {
           playClick();
           setShowNanoKaka(true);
         }}
-        className="absolute bottom-6 right-6 z-20 flex items-center gap-2 px-4 py-2 rounded-lg text-[#632911] font-[sf-heavy] bg-white/80 backdrop-blur shadow-lg hover:scale-105 transition"
+        className="absolute bottom-8 right-6 z-20 flex flex-col pb-5 pt-10 px-7 cursor-pointer font-[sf-heavy] text-[#632911] border-[3.5px] border-[#632911] bg-gradient-to-b from-[#FEC547] to-[#F3A01C] shadow-[0_0.4rem_0_rgba(62,22,1,1),inset_0_0.4rem_0_rgba(255,246,133,0.5),inset_0_-0.4rem_0_rgba(207,102,8,0.6)] rounded-[30px] border-radius-smooth hover:scale-105 transition-transform duration-300 ease-out items-end"
       >
-        <img src={nanokakaIcon} alt="Nano Kaka" className="w-6 h-6" />
-        <span>ASK NANOKAKA</span>
+        <img
+          src={nanokakaIcon}
+          alt="Nano Kaka"
+          className="w-25 h-25 absolute -translate-y-20 -translate-x-20"
+        />
+        <span className="text-[#CF6F00]">ASK</span>
+        <span className="text-3xl">NANO KAKA</span>
       </button>
 
       {showDialog && (
