@@ -3,16 +3,22 @@ import { motion, AnimatePresence } from "framer-motion";
 import logo from "../assets/logo.png";
 import cutscenes from "./cutscenes";
 import clickSound from "../assets/sound/click2.mp3";
+import inventorySound from "../assets/sound/inventory.mp3";
+import nanoSound from "../assets/sound/nano.mp3";
+import nanoByeSound from "../assets/sound/nanobye.mp3";
 import entrySound from "../assets/sound/entry.mp3";
 import mainBG from "../assets/final.png";
 import upperBG from "../assets/upperplate.png";
 import topBG from "../assets/topplate.png";
 import uncle1 from "../assets/people/uncle1.png";
+import nanokaka1 from "../assets/people/nanokaka1.png";
 import uncle2 from "../assets/people/uncle2.png";
 
 import coinIcon from "../assets/icons/currency.png";
 import pauseIcon from "../assets/icons/pause.svg";
 import exitIcon from "../assets/icons/exit.svg";
+import bulbIcon from "../assets/icons/bulb.png";
+import closeIcon from "../assets/icons/close.svg";
 import inventoryIcon from "../assets/icons/inventory.png";
 import nanokakaIcon from "../assets/icons/nanokaka.png";
 
@@ -26,6 +32,22 @@ export default function MainScreen() {
 
   const playClick = () => {
     const audio = new Audio(clickSound);
+    audio.play();
+  };
+
+  const playInventoryClick = () => {
+    const audio = new Audio(inventorySound);
+    audio.play();
+  };
+
+  const playNanoClick = () => {
+    const audio = new Audio(nanoSound);
+    audio.play();
+  };
+
+  const playNanoByeClick = () => {
+    const audio = new Audio(nanoByeSound);
+    audio.volume = 0.3; // Set volume to 30%
     audio.play();
   };
 
@@ -135,7 +157,7 @@ export default function MainScreen() {
 
         <motion.div
           key="upper-bg"
-          className="absolute inset-0 bg-cover bg-center z-10"
+          className="absolute inset-0 bg-cover bg-center z-12"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -186,7 +208,7 @@ export default function MainScreen() {
 
       <button
         onClick={() => {
-          playClick();
+          playInventoryClick();
           setShowInventory(true);
         }}
         className="absolute bottom-8 left-6 z-20 flex flex-col pb-5 pt-10 px-7 cursor-pointer font-[sf-heavy] text-[#632911] border-[3.5px] border-[#632911] bg-gradient-to-b from-[#FEC547] to-[#F3A01C] shadow-[0_0.4rem_0_rgba(62,22,1,1),inset_0_0.4rem_0_rgba(255,246,133,0.5),inset_0_-0.4rem_0_rgba(207,102,8,0.6)] rounded-[30px] border-radius-smooth hover:scale-105 transition-transform duration-300 ease-out items-start"
@@ -202,7 +224,7 @@ export default function MainScreen() {
 
       <button
         onClick={() => {
-          playClick();
+          playNanoClick();
           setShowNanoKaka(true);
         }}
         className="absolute bottom-8 right-6 z-20 flex flex-col pb-5 pt-10 px-7 cursor-pointer font-[sf-heavy] text-[#632911] border-[3.5px] border-[#632911] bg-gradient-to-b from-[#FEC547] to-[#F3A01C] shadow-[0_0.4rem_0_rgba(62,22,1,1),inset_0_0.4rem_0_rgba(255,246,133,0.5),inset_0_-0.4rem_0_rgba(207,102,8,0.6)] rounded-[30px] border-radius-smooth hover:scale-105 transition-transform duration-300 ease-out items-end"
@@ -240,36 +262,78 @@ export default function MainScreen() {
       )}
 
       {showInventory && (
-        <div className="absolute inset-0 bg-black/40 backdrop-blur-sm z-40 flex items-center justify-center">
-          <div className="bg-white p-6 rounded-xl max-w-md">
-            <h2 className="text-xl font-bold mb-4">Your Inventory</h2>
-            <button
-              onClick={() => {
-                playClick();
-                setShowInventory(false);
-              }}
-              className="mt-4 px-4 py-2 bg-gray-200 rounded"
-            >
-              Close
-            </button>
+        <div className="absolute inset-0 z-40 flex items-center justify-center pt-30 pb-8 px-6">
+          <div className="p-7 pb-7 w-full h-full font-[sf-heavy] text-[#632911] border-[3.5px] border-[#632911] bg-gradient-to-b from-[#BD7942] to-[#974B0C] shadow-[0_0.6rem_0_rgba(0,0,0,0.3),inset_0_0.6rem_0_rgba(255,255,255,0.2),inset_0_-0.6rem_0_rgba(0,0,0,0.3)] rounded-[35px] border-radius-smooth flex flex-col gap-4">
+            <div className="flex justify-between items-center align-middle">
+              <h1 className="text-[2.7rem]  text-[#3E1601] uppercase">
+                Inventory
+              </h1>
+              <button
+                onClick={() => {
+                  playInventoryClick();
+                  setShowInventory(false);
+                }}
+                className="  flex items-center justify-center w-13 h-13 cursor-pointer font-[sf-heavy] text-[#632911] border-[3.5px] border-[#632911] bg-gradient-to-b from-[#FEC547] to-[#F3A01C] shadow-[0_0.4rem_0_rgba(62,22,1,1),inset_0_0.4rem_0_rgba(255,246,133,0.5),inset_0_-0.4rem_0_rgba(207,102,8,0.6)] rounded-[18px] border-radius-smooth hover:scale-105 transition-transform duration-300 ease-out text-3xl"
+              >
+                <img src={closeIcon} alt="close icon" className="w-6 h-6" />
+              </button>
+            </div>
+
+            <div className="w-full h-full font-[sf-heavy] text-[#632911] border-[3.5px] border-[#632911] bg-gradient-to-b from-[#FFB862] to-[#E28B22] shadow-[inset_0_0.6rem_0_rgba(255,255,255,0.3),inset_0_-0.6rem_0_rgba(0,0,0,0.3)] rounded-[20px] border-radius-smooth "></div>
           </div>
         </div>
       )}
 
       {showNanoKaka && (
-        <div className="absolute inset-0 bg-black/40 backdrop-blur-sm z-40 flex items-center justify-center">
-          <div className="bg-white p-6 rounded-xl max-w-md">
-            <h2 className="text-xl font-bold mb-4">Nano Kaka's Help</h2>
-            <p>Tip: Check the fuse first!</p>
+        <div className="absolute inset-0 z-40 flex items-center justify-center pt-30 pb-8 px-6">
+          <div className="p-14 px-16 pb-7 w-full h-full font-[sf-heavy] text-[#632911] border-[3.5px] border-[#632911] bg-gradient-to-b from-[#FFFAE4] to-[#E7C796] shadow-[0_0.6rem_0_rgba(0,0,0,0.3),inset_0_0.6rem_0_rgba(255,255,255,0.7),inset_0_-0.6rem_0_rgba(0,0,0,0.2)] rounded-[35px] border-radius-smooth flex flex-col gap-4 relative">
+            {/* Close Button */}
             <button
               onClick={() => {
-                playClick();
+                playNanoByeClick();
                 setShowNanoKaka(false);
               }}
-              className="mt-4 px-4 py-2 bg-gray-200 rounded"
+              className="absolute top-6 right-6 flex items-center justify-center w-13 h-13 cursor-pointer font-[sf-heavy] text-[#632911] border-[3.5px] border-[#632911] bg-gradient-to-b from-[#FEC547] to-[#F3A01C] shadow-[0_0.4rem_0_rgba(62,22,1,1),inset_0_0.4rem_0_rgba(255,246,133,0.5),inset_0_-0.4rem_0_rgba(207,102,8,0.6)] rounded-[18px] hover:scale-105 transition-transform duration-300 ease-out text-3xl"
             >
-              Close
+              <img src={closeIcon} alt="close icon" className="w-6 h-6" />
             </button>
+
+            {/* Header */}
+            <div className="flex flex-col items-start gap-2">
+              <h2 className="text-4xl leading-snug">
+                <span className="text-[#D36D04]">
+                  Stuck In Any Problem? Don’t Worry...
+                </span>
+                <br />
+                <span className="text-[#3C1A00] text-5xl">
+                  NANO KAKA is here!
+                </span>
+              </h2>
+              <p className="text-lg leading-snug mt-2">
+                Each hint will cost you game rupees, so use them wisely! <br />
+                Nano Kaka will first drop subtle clues...
+                <br />
+                Ask more, and he’ll get clearer — but also charge more!
+              </p>
+            </div>
+
+            {/* Hint Options */}
+            <div className="flex gap-6 justify-start mt-4">
+              {[50, 100, 200].map((price, idx) => (
+                <button
+                  key={price}
+                  className="flex flex-col items-center justify-center px-6 py-4 bg-[#FCD472] rounded-[18px] shadow-[0_0.3rem_0_rgba(100,60,0,0.4)] border-[3px] border-[#7B3D00] hover:scale-105 transition-transform duration-300 ease-out"
+                >
+                  <img src={bulbIcon} alt="Hint" className="w-10 h-10 mb-1" />
+                  <span className="text-lg font-bold">{price}</span>
+                </button>
+              ))}
+            </div>
+
+            {/* Character Illustration */}
+            <div className="absolute right-20 bottom-0 w-[450px] h-auto pointer-events-none ">
+              <img src={nanokaka1} alt="Nano Kaka" className="w-full h-auto" />
+            </div>
           </div>
         </div>
       )}
