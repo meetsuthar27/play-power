@@ -1,0 +1,38 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "sf-black";
+  src: url("/src/assets/fonts/SF-Pro-Rounded-Black.otf") format("opentype");
+}
+@font-face {
+  font-family: "sf-bold";
+  src: url("/src/assets/fonts/SF-Pro-Rounded-Bold.otf") format("opentype");
+}
+@font-face {
+  font-family: "sf-heavy";
+  src: url("/src/assets/fonts/SF-Pro-Rounded-Heavy.otf") format("opentype");
+}
+@font-face {
+  font-family: "sf-light";
+  src: url("/src/assets/fonts/SF-Pro-Rounded-Light.otf") format("opentype");
+}
+@font-face {
+  font-family: "sf-medium";
+  src: url("/src/assets/fonts/SF-Pro-Rounded-Medium.otf") format("opentype");
+}
+@font-face {
+  font-family: "sf-regular";
+  src: url("/src/assets/fonts/SF-Pro-Rounded-Regular.otf") format("opentype");
+}
+@font-face {
+  font-family: "sf-semibold";
+  src: url("/src/assets/fonts/SF-Pro-Rounded-Semibold.otf") format("opentype");
+}
+@font-face {
+  font-family: "sf-thin";
+  src: url("/src/assets/fonts/SF-Pro-Rounded-Thin.otf") format("opentype");
+}
+@font-face {
+  font-family: "sf-ultralight";
+  src: url("/src/assets/fonts/SF-Pro-Rounded-Ultralight.otf") format("opentype");
+}
