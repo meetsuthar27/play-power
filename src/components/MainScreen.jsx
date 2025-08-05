@@ -8,6 +8,7 @@ import nanoSound from "../assets/sound/nano.mp3";
 import nanoByeSound from "../assets/sound/nanobye.mp3";
 import entrySound from "../assets/sound/entry.mp3";
 import mainBG from "../assets/final.png";
+import tableBG from "../assets/table.png";
 import upperBG from "../assets/upperplate.png";
 import topBG from "../assets/topplate.png";
 import uncle1 from "../assets/people/uncle1.png";
@@ -21,6 +22,9 @@ import bulbIcon from "../assets/icons/bulb.png";
 import closeIcon from "../assets/icons/close.svg";
 import inventoryIcon from "../assets/icons/inventory.png";
 import nanokakaIcon from "../assets/icons/nanokaka.png";
+import LevelOne from "./LevelOne";
+import LevelTwo from "./LevelTwo";
+import LevelThree from "./LevelThree";
 
 export default function MainScreen() {
   const [currentUncle, setCurrentUncle] = useState(0);
@@ -29,6 +33,8 @@ export default function MainScreen() {
   const [showNanoKaka, setShowNanoKaka] = useState(false);
   const [showDialog, setShowDialog] = useState(false);
   const [gameState, setGameState] = useState("main");
+  const levelComponents = [LevelOne, LevelTwo, LevelThree];
+  const CurrentLevel = levelComponents[currentUncle];
 
   const playClick = () => {
     const audio = new Audio(clickSound);
@@ -63,6 +69,7 @@ export default function MainScreen() {
   const handleSolve = () => {
     playClick();
     setGameState("level");
+    setShowDialog(false);
   };
 
   const finishLevel = () => {
@@ -104,55 +111,59 @@ export default function MainScreen() {
         />
 
         {gameState === "main" && (
-          <motion.div className="absolute -bottom-15 left-[63%] -translate-x-1/2 w-[530px] z-10 ">
-            <motion.img
-              key={`uncle-${currentUncle}`}
-              src={uncles[currentUncle]}
-              alt="Uncle Character"
-              className="w-full"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{
-                opacity: 1,
-                y: 0,
-                scaleX: [1, 1, 1.015, 1],
-                scaleY: [1, 1.005, 1, 1],
-              }}
-              exit={{ opacity: 0, y: 30 }}
-              transition={{
-                opacity: { duration: 0.6 },
-                y: { duration: 0.6 },
-                scaleX: {
-                  duration: 4,
-                  repeat: Infinity,
-                  repeatType: "loop",
-                  ease: "easeInOut",
-                  times: [0, 0.3, 0.7, 1],
-                },
-                scaleY: {
-                  duration: 4,
-                  repeat: Infinity,
-                  repeatType: "loop",
-                  ease: "easeInOut",
-                  times: [0, 0.3, 0.7, 1],
-                },
-              }}
-            />
+          <>
+            {/* Uncle Image */}
+            <motion.div className="absolute -bottom-15 left-[63%] -translate-x-1/2 w-[530px] z-10">
+              <motion.img
+                key={`uncle-${currentUncle}`}
+                src={uncles[currentUncle]}
+                alt="Uncle Character"
+                className="w-full"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{
+                  opacity: 1,
+                  y: 0,
+                  scaleX: [1, 1, 1.015, 1],
+                  scaleY: [1, 1.005, 1, 1],
+                }}
+                exit={{ opacity: 0, y: 30 }}
+                transition={{
+                  opacity: { duration: 0.6 },
+                  y: { duration: 0.6 },
+                  scaleX: {
+                    duration: 4,
+                    repeat: Infinity,
+                    repeatType: "loop",
+                    ease: "easeInOut",
+                    times: [0, 0.3, 0.7, 1],
+                  },
+                  scaleY: {
+                    duration: 4,
+                    repeat: Infinity,
+                    repeatType: "loop",
+                    ease: "easeInOut",
+                    times: [0, 0.3, 0.7, 1],
+                  },
+                }}
+              />
+            </motion.div>
 
+            {/* ❓ Button outside uncle */}
             {!showDialog && (
-              <div className="absolute -top-6 left-1/2 -translate-x-1/2 flex flex-col items-center z-40">
-                <div className="w-12 h-12 rounded-full bg-yellow-400 opacity-70 animate-ping absolute" />
+              <div className="absolute bottom-170 left-[63%] -translate-x-1/2 flex flex-col items-center z-[40] pointer-events-auto">
+                <div className="absolute w-15 h-15 rounded-full bg-[#8AEEF5] opacity-90 animate-ping" />
                 <button
                   onClick={() => {
                     playClick();
                     setShowDialog(true);
                   }}
-                  className="cursor-pointer relative w-12 h-12 rounded-full bg-yellow-400 flex items-center justify-center shadow-xl border-2 border-[#632911]"
+                  className="relative w-15 h-15 rounded-full flex items-center justify-center text-[#632911] border-[3.5px] border-[#632911] bg-gradient-to-b from-[#8AEEF5] to-[#22C9D8] shadow-[0_0.2rem_0_rgba(62,22,1,1),inset_0_0.3rem_0_rgba(255,255,255,0.4),inset_0_-0.3rem_0_rgba(0,0,0,0.3)] border-radius-smooth hover:scale-125 transition-transform duration-300 ease-out cursor-pointer font-[sf-heavy] text-[2rem]"
                 >
-                  ❓
+                  ?
                 </button>
               </div>
             )}
-          </motion.div>
+          </>
         )}
 
         <motion.div
@@ -188,22 +199,62 @@ export default function MainScreen() {
 
       <button
         onClick={playClick}
-        className="absolute top-6 left-6 z-20 flex items-center gap-4 px-5 h-16 min-w-[100px] cursor-pointer font-[sf-heavy] text-[#632911] border-[3.5px] border-[#632911] bg-gradient-to-b from-[#FEC547] to-[#F3A01C] shadow-[0_0.4rem_0_rgba(62,22,1,1),inset_0_0.4rem_0_rgba(255,246,133,0.5),inset_0_-0.4rem_0_rgba(207,102,8,0.6)] rounded-[18px] border-radius-smooth hover:scale-105 transition-transform duration-300 ease-out"
+        className="absolute top-6 left-6 z-35 flex items-center gap-4 px-5 h-16 min-w-[100px] cursor-pointer font-[sf-heavy] text-[#632911] border-[3.5px] border-[#632911] bg-gradient-to-b from-[#FDDCA5] to-[#F4C06A] shadow-[0_0.4rem_0_rgba(62,22,1,1),inset_0_0.4rem_0_rgba(255,255,255,0.4),inset_0_-0.4rem_0_rgba(0,0,0,0.3)] rounded-[18px] border-radius-smooth hover:scale-105 transition-transform duration-300 ease-out"
       >
         <img src={coinIcon} alt="Coins" className="w-10 h-10" />
         <span className="text-2xl">123</span>
       </button>
 
-      <div className="absolute top-6 right-6 z-20 flex gap-2">
+      <div className="absolute top-6 right-6 z-35 flex gap-2">
         {[pauseIcon, exitIcon].map((icon, i) => (
           <button
             key={i}
             onClick={playClick}
-            className="flex items-center justify-center w-16 h-16 cursor-pointer text-xl font-[sf-heavy] text-[#632911] border-[3.5px] border-[#632911] bg-gradient-to-b from-[#FEC547] to-[#F3A01C] shadow-[0_0.4rem_0_rgba(62,22,1,1),inset_0_0.4rem_0_rgba(255,246,133,0.5),inset_0_-0.4rem_0_rgba(207,102,8,0.6)] rounded-[18px] border-radius-smooth hover:scale-105 transition-transform duration-300 ease-out"
+            className="flex items-center justify-center w-16 h-16 cursor-pointer text-xl font-[sf-heavy] text-[#632911] border-[3.5px] border-[#632911] bg-gradient-to-b from-[#FDDCA5] to-[#F4C06A] shadow-[0_0.4rem_0_rgba(62,22,1,1),inset_0_0.4rem_0_rgba(255,255,255,0.4),inset_0_-0.4rem_0_rgba(0,0,0,0.3)] rounded-[18px] border-radius-smooth hover:scale-105 transition-transform duration-300 ease-out"
           >
             <img src={icon} alt={`icon-${i}`} className="w-6 h-6" />
           </button>
         ))}
+        <button
+          key="music-toggle"
+          onClick={() => {
+            window.dispatchEvent(new CustomEvent("toggle-music"));
+            playClick();
+          }}
+          className="flex items-center justify-center w-16 h-16 cursor-pointer text-xl font-[sf-heavy] text-[#632911] border-[3.5px] border-[#632911] bg-gradient-to-b from-[#FDDCA5] to-[#F4C06A] shadow-[0_0.4rem_0_rgba(62,22,1,1),inset_0_0.4rem_0_rgba(255,255,255,0.4),inset_0_-0.4rem_0_rgba(0,0,0,0.3)] rounded-[18px] border-radius-smooth hover:scale-105 transition-transform duration-300 ease-out"
+        >
+          {window.__musicOn ? (
+            <svg
+              width="24"
+              height="24"
+              stroke="currentColor"
+              fill="none"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="lucide lucide-volume-2"
+            >
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+              <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+              <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+            </svg>
+          ) : (
+            <svg
+              width="24"
+              height="24"
+              stroke="currentColor"
+              fill="none"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="lucide lucide-volume-x"
+            >
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+              <line x1="22" x2="16" y1="9" y2="15" />
+              <line x1="16" x2="22" y1="9" y2="15" />
+            </svg>
+          )}
+        </button>
       </div>
 
       <button
@@ -211,7 +262,7 @@ export default function MainScreen() {
           playInventoryClick();
           setShowInventory(true);
         }}
-        className="absolute bottom-8 left-6 z-20 flex flex-col pb-5 pt-10 px-7 cursor-pointer font-[sf-heavy] text-[#632911] border-[3.5px] border-[#632911] bg-gradient-to-b from-[#FEC547] to-[#F3A01C] shadow-[0_0.4rem_0_rgba(62,22,1,1),inset_0_0.4rem_0_rgba(255,246,133,0.5),inset_0_-0.4rem_0_rgba(207,102,8,0.6)] rounded-[30px] border-radius-smooth hover:scale-105 transition-transform duration-300 ease-out items-start"
+        className="absolute bottom-8 left-6 z-35 flex flex-col pb-5 pt-10 px-7 cursor-pointer font-[sf-heavy] text-[#632911] border-[3.5px] border-[#632911] bg-gradient-to-b from-[#FEC547] to-[#F3A01C] shadow-[0_0.4rem_0_rgba(62,22,1,1),inset_0_0.4rem_0_rgba(255,246,133,0.5),inset_0_-0.4rem_0_rgba(207,102,8,0.6)] rounded-[30px] border-radius-smooth hover:scale-105 transition-transform duration-300 ease-out items-start"
       >
         <img
           src={inventoryIcon}
@@ -227,7 +278,7 @@ export default function MainScreen() {
           playNanoClick();
           setShowNanoKaka(true);
         }}
-        className="absolute bottom-8 right-6 z-20 flex flex-col pb-5 pt-10 px-7 cursor-pointer font-[sf-heavy] text-[#632911] border-[3.5px] border-[#632911] bg-gradient-to-b from-[#FEC547] to-[#F3A01C] shadow-[0_0.4rem_0_rgba(62,22,1,1),inset_0_0.4rem_0_rgba(255,246,133,0.5),inset_0_-0.4rem_0_rgba(207,102,8,0.6)] rounded-[30px] border-radius-smooth hover:scale-105 transition-transform duration-300 ease-out items-end"
+        className="absolute bottom-8 right-6 z-35 flex flex-col pb-5 pt-10 px-7 cursor-pointer font-[sf-heavy] text-[#632911] border-[3.5px] border-[#632911] bg-gradient-to-b from-[#FEC547] to-[#F3A01C] shadow-[0_0.4rem_0_rgba(62,22,1,1),inset_0_0.4rem_0_rgba(255,246,133,0.5),inset_0_-0.4rem_0_rgba(207,102,8,0.6)] rounded-[30px] border-radius-smooth hover:scale-105 transition-transform duration-300 ease-out items-end"
       >
         <img
           src={nanokakaIcon}
@@ -239,8 +290,8 @@ export default function MainScreen() {
       </button>
 
       {showDialog && (
-        <div className="absolute bottom-24 left-1/2 transform -translate-x-1/2 bg-white/90 px-8 py-6 max-w-xl text-[#632911] rounded-xl shadow-xl z-30">
-          <p className="text-lg mb-4">
+        <div className="absolute top-30 left-1/2 transform -translate-x-1/2 px-8 py-6 max-w-3xl z-30 font-[sf-heavy] text-[#632911] border-[3.5px] border-[#632911] bg-gradient-to-b from-[#FFFAE4] to-[#E7C796] shadow-[0_0.4rem_0_rgba(0,0,0,0.3),inset_0_0.4rem_0_rgba(255,255,255,0.7),inset_0_-0.4rem_0_rgba(0,0,0,0.2)] rounded-[25px] border-radius-smooth">
+          <p className="text-2xl mb-4">
             {problems[currentUncle].dialog[dialogIndex]}
           </p>
           {dialogIndex < problems[currentUncle].dialog.length - 1 ? (
@@ -338,13 +389,20 @@ export default function MainScreen() {
         </div>
       )}
 
-      {gameState === "level" && (
-        <div className="absolute inset-0 z-50 bg-black text-white flex items-center justify-center">
-          <p>This is where the circuit puzzle will go...</p>
-          <button onClick={finishLevel} className="ml-4 px-4 py-2 bg-green-500">
-            Finish Level
-          </button>
-        </div>
+      {gameState === "level" && CurrentLevel && (
+        <>
+          <motion.div
+            key="main-bg"
+            className="absolute inset-0 bg-cover bg-center z-30"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.6 }}
+            style={{ backgroundImage: `url(${tableBG})` }}
+          />
+
+          <CurrentLevel onComplete={finishLevel} />
+        </>
       )}
     </div>
   );
