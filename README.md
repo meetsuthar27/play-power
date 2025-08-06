@@ -150,7 +150,10 @@ Special thanks to the **Playpower EdSprint Hackathon** organizers and mentors, a
   ![alt text](<image 6.png>)
 
 - Customer Dialogue
-  ![alt text](<image 12.png>) ![alt text](<image 13.png>)
+<div align="center">
+  <img src="image 12.png" alt="Customer Dialogue 1" width="45%" />
+  <img src="image 13.png" alt="Customer Dialogue 2" width="45%" />
+</div>
 
 - Tinker Table (Repair Mode)
   ![alt text](hel01.png) ![alt text](hel02.png)
