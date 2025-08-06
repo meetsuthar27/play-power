@@ -55,6 +55,7 @@ export default function LevelOne({ onComplete }) {
   const [correctCount, setCorrectCount] = useState(0);
   const [showPopup, setShowPopup] = useState(true);
   const [initialPopup, setInitialPopup] = useState(true);
+  const [showCompletionPopup, setShowCompletionPopup] = useState(false);
   const current = CONFIGS[tryIndex];
 
   const handleDrop = (batteryType) => {
@@ -73,15 +74,17 @@ export default function LevelOne({ onComplete }) {
 
       if (tryIndex === 2) {
         setTimeout(() => {
-          if (nextCorrectCount === 3) {
-            setShowPopup(true);
+          if (nextCorrectCount >= 2) { // Allow completion with 2 or more correct
+            setShowCompletionPopup(true);
             setTimeout(() => {
               onComplete();
-            }, 1500);
+            }, 3000); // Show completion message for 3 seconds
           } else {
-            setTryIndex(0);
-            setCorrectCount(0);
-            setShowPopup(true);
+            // Allow completion even with 1 correct answer for better user experience
+            setShowCompletionPopup(true);
+            setTimeout(() => {
+              onComplete();
+            }, 3000); // Show completion message for 3 seconds
           }
         }, 1000);
       } else {
@@ -145,7 +148,7 @@ export default function LevelOne({ onComplete }) {
         )}
 
         {/* Question Popup for each try */}
-        {showPopup && !initialPopup && (
+        {showPopup && !initialPopup && !showCompletionPopup && (
           <div className="absolute inset-0 z-50 flex items-center justify-center">
             <div className="p-14 px-16 pb-7 w-[600px] font-[sf-heavy] text-[#632911] border-[3.5px] border-[#632911] bg-gradient-to-b from-[#FFFAE4] to-[#E7C796] shadow-[0_0.6rem_0_rgba(0,0,0,0.3),inset_0_0.6rem_0_rgba(255,255,255,0.7),inset_0_-0.6rem_0_rgba(0,0,0,0.2)] rounded-[35px] text-2xl text-center">
               {current.question}
@@ -156,6 +159,22 @@ export default function LevelOne({ onComplete }) {
               >
                 Start Try {tryIndex + 1}
               </button>
+            </div>
+          </div>
+        )}
+
+        {/* Level Completion Popup */}
+        {showCompletionPopup && (
+          <div className="absolute inset-0 z-50 flex items-center justify-center">
+            <div className="p-14 px-16 pb-7 w-[600px] font-[sf-heavy] text-[#632911] border-[3.5px] border-[#632911] bg-gradient-to-b from-[#FFFAE4] to-[#E7C796] shadow-[0_0.6rem_0_rgba(0,0,0,0.3),inset_0_0.6rem_0_rgba(255,255,255,0.7),inset_0_-0.6rem_0_rgba(0,0,0,0.2)] rounded-[35px] text-2xl text-center">
+              🎉 Congratulations! 🎉
+              <br />
+              <br />
+              You have completed Level 1!
+              <br />
+              <span className="text-lg text-green-600">
+                Score: {correctCount}/3 correct
+              </span>
             </div>
           </div>
         )}

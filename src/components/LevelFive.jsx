@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 
-export default function LevelThree({ onComplete }) {
-  const [selectedResistor, setSelectedResistor] = useState(null);
+export default function LevelFive({ onComplete }) {
+  const [selectedCalibration, setSelectedCalibration] = useState(null);
   const [showResult, setShowResult] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
 
-  const handleResistorSelect = (resistor) => {
-    setSelectedResistor(resistor);
-    const correct = resistor === "220"; // 220 ohm resistor is correct for LED
+  const handleCalibrationSelect = (method) => {
+    setSelectedCalibration(method);
+    const correct = method === "zero"; // Zero calibration is correct for sensors
     setIsCorrect(correct);
     setShowResult(true);
     
@@ -18,7 +18,7 @@ export default function LevelThree({ onComplete }) {
         onComplete();
       } else {
         // Reset for another try
-        setSelectedResistor(null);
+        setSelectedCalibration(null);
       }
     }, 2000);
   };
@@ -26,54 +26,54 @@ export default function LevelThree({ onComplete }) {
   return (
     <div className="absolute z-40 w-full h-full flex items-center justify-center">
       <div className="p-10 bg-white rounded-xl shadow-md text-xl text-[#632911] font-[sf-heavy] max-w-2xl">
-        <h2 className="text-3xl mb-6 text-center">💡 LED Voltage Regulation</h2>
+        <h2 className="text-3xl mb-6 text-center">📊 Sensor Calibration</h2>
         <p className="text-xl mb-8 text-center">
-          The LED is flickering because it needs proper voltage regulation. Choose the correct resistor to fix the circuit!
+          The sensor readings are inaccurate. Choose the correct calibration method to fix the sensor!
         </p>
         
         <div className="grid grid-cols-3 gap-4">
           <button
-            onClick={() => handleResistorSelect("100")}
+            onClick={() => handleCalibrationSelect("offset")}
             className={`p-4 rounded-lg border-4 transition-all duration-300 ${
-              selectedResistor === "100" 
+              selectedCalibration === "offset" 
                 ? "border-red-500 bg-red-100" 
                 : "border-gray-300 bg-gray-50 hover:border-blue-400"
             }`}
           >
             <div className="text-center">
-              <div className="text-2xl mb-2">🔴</div>
-              <div className="text-lg font-bold">100Ω</div>
-              <div className="text-xs text-gray-600">Too low resistance</div>
+              <div className="text-2xl mb-2">📈</div>
+              <div className="text-lg font-bold">Offset</div>
+              <div className="text-xs text-gray-600">Add/subtract value</div>
             </div>
           </button>
           
           <button
-            onClick={() => handleResistorSelect("220")}
+            onClick={() => handleCalibrationSelect("zero")}
             className={`p-4 rounded-lg border-4 transition-all duration-300 ${
-              selectedResistor === "220" 
+              selectedCalibration === "zero" 
                 ? "border-green-500 bg-green-100" 
                 : "border-gray-300 bg-gray-50 hover:border-blue-400"
             }`}
           >
             <div className="text-center">
-              <div className="text-2xl mb-2">🟡</div>
-              <div className="text-lg font-bold">220Ω</div>
-              <div className="text-xs text-gray-600">Correct resistance</div>
+              <div className="text-2xl mb-2">🎯</div>
+              <div className="text-lg font-bold">Zero Point</div>
+              <div className="text-xs text-gray-600">Set baseline</div>
             </div>
           </button>
           
           <button
-            onClick={() => handleResistorSelect("470")}
+            onClick={() => handleCalibrationSelect("scale")}
             className={`p-4 rounded-lg border-4 transition-all duration-300 ${
-              selectedResistor === "470" 
+              selectedCalibration === "scale" 
                 ? "border-red-500 bg-red-100" 
                 : "border-gray-300 bg-gray-50 hover:border-blue-400"
             }`}
           >
             <div className="text-center">
-              <div className="text-2xl mb-2">🟢</div>
-              <div className="text-lg font-bold">470Ω</div>
-              <div className="text-xs text-gray-600">Too high resistance</div>
+              <div className="text-2xl mb-2">⚖️</div>
+              <div className="text-lg font-bold">Scale</div>
+              <div className="text-xs text-gray-600">Multiply factor</div>
             </div>
           </button>
         </div>
@@ -82,7 +82,7 @@ export default function LevelThree({ onComplete }) {
           <div className={`mt-6 p-4 rounded-lg text-center text-xl ${
             isCorrect ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
           }`}>
-            {isCorrect ? "✅ Perfect! 220Ω resistor provides the right voltage for the LED." : "❌ Wrong! Try a different resistor value."}
+            {isCorrect ? "✅ Perfect! Zero point calibration sets the correct baseline for accurate readings." : "❌ Wrong! Try a different calibration method."}
           </div>
         )}
       </div>
