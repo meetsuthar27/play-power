@@ -3,11 +3,26 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const rotatingTexts = [
   "Loading assets...",
-  "Fun Fact: Nikola Tesla once imagined wireless power grids.",
-  "Did you know: Sound travels faster in steel than air.",
+  "Fun Fact - Nikola Tesla once imagined wireless power grids.",
+  "Did you know? Sound travels faster in steel than in air.",
   "Loading character animations...",
   "Almost there...",
   "Initializing circuits...",
+  "Tip - The red needle on a compass always points North!",
+  "Fact - Electricity moves at nearly the speed of light in copper wires.",
+  "Loading magnetic fields...",
+  "Einstein once said, 'Imagination is more important than knowledge.'",
+  "Building interactive elements...",
+  "Did you know? A compass works because of Earth's magnetic field.",
+  "Tip - Opposite poles attract, like poles repel.",
+  "Warming up the electromagnets...",
+  "Fact - Light is both a particle and a wave.",
+  "Prepping the physics engine...",
+  "James Clerk Maxwell unified electricity and magnetism.",
+  "Tip - Current creates magnetic fields — that's electromagnetism!",
+  "Just a few electrons away...",
+  "Did you know ? The sun is a giant nuclear fusion reactor.",
+  "Loading circuits and surprises...",
 ];
 
 export default function GameLoader({ progress }) {
@@ -23,7 +38,7 @@ export default function GameLoader({ progress }) {
   return (
     <AnimatePresence>
       <motion.div
-        className="fixed inset-0 bg-[#150c02] text-white flex flex-col items-center justify-center z-[9999] font-[sf-heavy]"
+        className="fixed inset-0 bg-[#11226e] text-white flex flex-col items-center justify-center z-[9999] font-[sf-heavy]"
         initial={{ opacity: 1 }}
         animate={{ opacity: progress >= 100 ? 0 : 1 }}
         exit={{ opacity: 0 }}
@@ -36,7 +51,7 @@ export default function GameLoader({ progress }) {
           animate={{ scale: [1, 1.02, 1], opacity: 1 }}
           transition={{ duration: 2, repeat: Infinity }}
         >
-          PowerPlay
+          PlayPower
         </motion.div>
 
         {/* Progress Bar */}
@@ -55,7 +70,7 @@ export default function GameLoader({ progress }) {
         {/* Rotating Messages */}
         <motion.div
           key={textIndex}
-          className="text-sm text-white/80 max-w-md text-center px-4"
+          className="text-lg text-white/80 max-w-md text-center px-4"
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
