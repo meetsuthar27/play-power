@@ -20,6 +20,8 @@ import lady1 from "../assets/people/lady1.avif";
 import lady2 from "../assets/people/lady2.avif";
 import kid1 from "../assets/people/kid1.avif";
 import kid2 from "../assets/people/kid2.avif";
+import teacher1 from "../assets/people/teacher1.avif";
+import teacher2 from "../assets/people/teacher2.avif";
 
 import coinIcon from "../assets/icons/currency.png";
 import pauseIcon from "../assets/icons/pause.svg";
@@ -47,7 +49,9 @@ export default function MainScreen() {
   const [showHappyUncleAfterExplanation, setShowHappyUncleAfterExplanation] =
     useState(false);
   const [currentLevel, setCurrentLevel] = useState(1);
-  const [coins, setCoins] = useState(0);
+  const [coins, setCoins] = useState(1000);
+
+  const [currentHint, setCurrentHint] = useState("");
 
   const levelComponents = [
     LevelOne,
@@ -143,18 +147,18 @@ export default function MainScreen() {
   };
 
   const handleHintPurchase = (price) => {
-    if (coins >= price) {
-      setCoins((prev) => prev - price);
-      playClick();
-      // You can add hint display logic here
-      // For now, just a simple alert or console log
-      console.log(`Purchased hint for ${price} coins`);
-      // TODO: Display appropriate hint based on current level and price tier
-    } else {
-      // Not enough coins
-      console.log("Not enough coins for this hint");
-      // You can show a message to the user here
-    }
+    if (coins < price) return;
+
+    setCoins(coins - price);
+
+    // Sample hints based on price
+    let hint = "";
+    if (price === 50) hint = "Try checking the left corner of the room.";
+    else if (price === 100) hint = "The answer involves the red object.";
+    else if (price === 200) hint = "Click the lever near the broken panel.";
+
+    setCurrentHint(hint); // Update the hint shown
+    playClick(); // Optional sound
   };
 
   const handlePrevExplanation = () => {
@@ -302,8 +306,8 @@ export default function MainScreen() {
       messageDialog: [
         "Hmm… well, well. Look at that. You’ve answered them all — and not just correctly, but confidently... Seems like all those puzzles did teach you something after all. I’m proud of you. Keep going. The world needs sharp minds like yours — both curious and disciplined.",
       ],
-      CustomerBefore: uncle1,
-      CustomerAfter: uncle2,
+      CustomerBefore: teacher1,
+      CustomerAfter: teacher2,
       LearningHeading: "Concept Recap & Knowledge Check",
       LearningsDialog: [
         "This level serves as a checkpoint to reinforce all major concepts you've learned so far:",
@@ -320,6 +324,34 @@ export default function MainScreen() {
       ],
       Price: 300,
     },
+  };
+
+  const hints = {
+    level1: [
+      "Sometimes even a small change in how things are connected can affect how components behave.",
+      "Think about what happens when current flows through a wire near a compass — what does it do to the needle?",
+      "Try flipping the battery terminals and observe the compass needle's direction change — that’s the key.",
+    ],
+    level2: [
+      "Getting the image right isn't just about where the lens is — think about where the object is placed too.",
+      "Adjust the object's distance until the image sharpens — especially watch what happens when it's very close vs far.",
+      "Place the object beyond the focal point of the convex lens to form a sharp real image on the screen.",
+    ],
+    level3: [
+      "These colorful bands aren’t just decoration — they actually represent numbers.",
+      "The first two stripes give you digits, and the third one multiplies them. It's like solving a tiny math puzzle.",
+      "Use the standard resistor color code: for example, red-violet-orange means 27,000 ohms (27kΩ).",
+    ],
+    level4: [
+      "Mirrors reflect light, sure — but where it goes depends on *how* the mirror is angled.",
+      "Think about how a ball bounces off a wall — light follows the same rule: angle in = angle out.",
+      "To hit the balloon, rotate mirrors so that the laser beam reflects at just the right angle — trace it like a zigzag path.",
+    ],
+    level5: [
+      "This is your big recap. Think back to what each customer’s problem was really about.",
+      "Every puzzle taught you something — magnetic fields, lenses, resistors, reflection — recall how each worked.",
+      "Use what you've learned: right-hand rule, image formation, color codes, laser paths — the quiz is testing your understanding, not memory.",
+    ],
   };
 
   useEffect(() => {
@@ -798,7 +830,7 @@ export default function MainScreen() {
                   NANO KAKA is here!
                 </span>
               </h2>
-              <p className="text-lg leading-snug mt-2">
+              <p className="text-xl font-[sf-bold] leading-snug mt-2">
                 Each hint will cost you game rupees, so use them wisely! <br />
                 Nano Kaka will first drop subtle clues...
                 <br />
@@ -813,17 +845,23 @@ export default function MainScreen() {
                   key={price}
                   onClick={() => handleHintPurchase(price)}
                   disabled={coins < price}
-                  className={`flex flex-col items-center justify-center px-6 py-4 rounded-[18px] shadow-[0_0.3rem_0_rgba(100,60,0,0.4)] border-[3px] border-[#7B3D00] hover:scale-105 transition-transform duration-300 ease-out ${
+                  className={`flex flex-col items-center justify-center px-6 py-4 font-[sf-heavy] text-[#632911] border-[3.5px] border-[#632911] bg-gradient-to-b  shadow-[0_0.3rem_0_rgba(0,0,0,0.3),inset_0_0.3rem_0_rgba(255,255,255,0.4),inset_0_-0.3rem_0_rgba(0,0,0,0.2)] rounded-[24px] hover:scale-105 transition-transform duration-300 ease-out ${
                     coins < price
-                      ? "bg-gray-400 opacity-50 cursor-not-allowed"
-                      : "bg-[#FCD472] cursor-pointer"
+                      ? "from-[#e5e5e5] to-[#bdbdbd] opacity-50 cursor-not-allowed"
+                      : "from-[#ffe195] to-[#ffc739] cursor-pointer"
                   }`}
                 >
-                  <img src={bulbIcon} alt="Hint" className="w-10 h-10 mb-1" />
+                  <img src={bulbIcon} alt="Hint" className="w-16 h-16 mb-1" />
                   <span className="text-lg font-bold">{price}</span>
                 </button>
               ))}
             </div>
+
+            {currentHint && (
+              <div className="mt-6 p-4 bg-[#FFFAE4] border-2 border-[#E7C796] rounded-[18px] text-[#4A2600]  w-[50%] text-2xl font-[sf-bold] ">
+                <strong>Hint</strong> {currentHint}
+              </div>
+            )}
 
             {/* Character Illustration */}
             <div className="absolute right-20 bottom-0 w-[450px] h-auto pointer-events-none ">

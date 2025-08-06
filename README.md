@@ -162,8 +162,8 @@ Special thanks to the **Playpower EdSprint Hackathon** organizers and mentors, a
 - Customer Dialogue
 
 <di2 align="center">
-  <img src="screen_1.png" alt="Customer Dialogue 1" width="49%" />
-  <img src="screen_2.png" alt="Customer Dialogue 2" width="49%" />
+  <img src="screen_1.png" alt="Customer Dialogue 1" width="48%" />
+  <img src="screen_2.png" alt="Customer Dialogue 2" width="48%" />
 </di2>
 
 - Tinker Table (Repair Mode)
