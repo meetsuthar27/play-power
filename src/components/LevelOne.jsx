@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import compass from "../assets/level1/compass.png";
 import wire from "../assets/level1/wire.png";
@@ -7,7 +7,7 @@ import cell from "../assets/level1/cell.png";
 
 const CONFIGS = [
   {
-    question: "Make needle move to EAST",
+    question: "Make needle move towards EAST",
     correct: "B",
     needleAngle: 55,
     elements: {
@@ -20,7 +20,7 @@ const CONFIGS = [
     },
   },
   {
-    question: "Make needle move to WEST",
+    question: "Make needle move towards WEST",
     correct: "A",
     needleAngle: -40,
     elements: {
@@ -33,7 +33,7 @@ const CONFIGS = [
     },
   },
   {
-    question: "Make needle move to EAST",
+    question: "Make needle move towards EAST",
     correct: "B",
     needleAngle: 40,
     elements: {
@@ -55,6 +55,9 @@ export default function LevelOne({ onComplete }) {
   const [correctCount, setCorrectCount] = useState(0);
   const [showPopup, setShowPopup] = useState(true);
   const [initialPopup, setInitialPopup] = useState(true);
+  const [initialNeedleAngle, setInitialNeedleAngle] = useState(0);
+  const [currentNeedleAngle, setCurrentNeedleAngle] = useState(0);
+
   const [showCompletionPopup, setShowCompletionPopup] = useState(false);
   const current = CONFIGS[tryIndex];
 
@@ -63,10 +66,15 @@ export default function LevelOne({ onComplete }) {
 
     const isCorrect = batteryType === current.correct;
     setIsDropped(true);
-    setNeedleAngle(current.needleAngle);
+
+    // Animate from currentNeedleAngle to target
+    const targetAngle = isCorrect
+      ? current.needleAngle
+      : currentNeedleAngle + (Math.random() > 0.5 ? 30 : -30); // wrong answers deviate randomly
+
+    setCurrentNeedleAngle(targetAngle);
 
     setTimeout(() => {
-      setNeedleAngle(0);
       setIsDropped(false);
 
       const nextCorrectCount = isCorrect ? correctCount + 1 : correctCount;
@@ -74,21 +82,19 @@ export default function LevelOne({ onComplete }) {
 
       if (tryIndex === 2) {
         setTimeout(() => {
-          if (nextCorrectCount >= 2) { // Allow completion with 2 or more correct
-            setShowCompletionPopup(true);
-            setTimeout(() => {
-              onComplete();
-            }, 3000); // Show completion message for 3 seconds
-          } else {
-            // Allow completion even with 1 correct answer for better user experience
-            setShowCompletionPopup(true);
-            setTimeout(() => {
-              onComplete();
-            }, 3000); // Show completion message for 3 seconds
-          }
+          setShowCompletionPopup(true);
+          setTimeout(() => {
+            onComplete();
+          }, 3000);
         }, 1000);
       } else {
-        setTryIndex((prev) => prev + 1);
+        const nextTry = tryIndex + 1;
+
+        // generate new random initial direction
+        const randomInit = Math.floor(Math.random() * 120 - 60); // -60° to +60°
+        setInitialNeedleAngle(randomInit);
+        setCurrentNeedleAngle(randomInit);
+        setTryIndex(nextTry);
         setShowPopup(true);
       }
     }, 1500);
@@ -109,6 +115,24 @@ export default function LevelOne({ onComplete }) {
     }
   };
 
+  useEffect(() => {
+    if (showPopup && !initialPopup && !showCompletionPopup) {
+      const timer = setTimeout(() => {
+        setShowPopup(false);
+      }, 3500); // 3.5 seconds
+
+      return () => clearTimeout(timer); // Cleanup
+    }
+  }, [showPopup, initialPopup, showCompletionPopup]);
+
+  useEffect(() => {
+    if (!initialPopup) {
+      const randomInit = Math.floor(Math.random() * 120 - 60); // -60° to +60°
+      setInitialNeedleAngle(randomInit);
+      setCurrentNeedleAngle(randomInit);
+    }
+  }, [initialPopup]);
+
   const style = (styles) => ({
     position: "absolute",
     ...styles,
@@ -126,22 +150,48 @@ export default function LevelOne({ onComplete }) {
 
         {/* Initial Instructions */}
         {initialPopup && (
-          <div className="absolute inset-0 z-50 flex items-center justify-center">
-            <div className="p-14 px-16 pb-7 w-[600px] font-[sf-heavy] text-[#632911] border-[3.5px] border-[#632911] bg-gradient-to-b from-[#FFFAE4] to-[#E7C796] shadow-[0_0.6rem_0_rgba(0,0,0,0.3),inset_0_0.6rem_0_rgba(255,255,255,0.7),inset_0_-0.6rem_0_rgba(0,0,0,0.2)] rounded-[35px] text-2xl text-center">
-              You are given two batteries.
-              <br />
-              Place the one that makes the compass needle point in the correct
-              direction.
-              <br />
-              <br />
+          <div className="absolute inset-0 flex items-center justify-center z-60">
+            <div className="relative flex flex-col justify-between items-center p-14 px-16 pb-20 w-[1000px] h-[500px] font-[sf-heavy] text-[#632911] border-[3.5px] border-[#632911] bg-gradient-to-b from-[#FFFAE4] to-[#E7C796] shadow-[0_0.6rem_0_rgba(0,0,0,0.3),inset_0_0.6rem_0_rgba(255,255,255,0.7),inset_0_-0.6rem_0_rgba(0,0,0,0.2)] rounded-[35px] text-[1.7rem] text-center">
+              {/* Title */}
+              <div>
+                <h1 className="text-5xl font-[sf-heavy] mb-6">
+                  <span className="text-[#d38200] mr-4">Level 1 </span> Power
+                  Alignment
+                </h1>
+
+                {/* Description */}
+                <p className="leading-snug px-6 font-[sf-bold]">
+                  Choose a cell’s direction and insert it into the circuit.{" "}
+                  <br />
+                  Your goal: make the compass needle point <strong>
+                    East
+                  </strong>{" "}
+                  or <strong>West</strong>, as required. Think like a tinkerer.
+                  One choice. One spark. Complete the level!
+                </p>
+              </div>
+
+              {/* Button */}
               <button
                 onClick={() => {
                   setInitialPopup(false);
                   setShowPopup(true);
                 }}
-                className="mt-10 px-6 py-3 bg-[#632911] text-white rounded-lg text-lg"
+                className=" px-4 py-3 cursor-pointer flex items-center gap-2
+        text-xl font-[sf-heavy] text-[#632911] border-[3.5px] border-[#632911]
+        bg-gradient-to-b from-[#FEC547] to-[#F3A01C] 
+        shadow-[0_0.3rem_0_rgba(62,22,1,1),inset_0_0.3rem_0_rgba(255,246,133,0.5),inset_0_-0.3rem_0_rgba(207,102,8,0.6)] 
+        rounded-[18px] [border-radius-smooth:0.6] hover:scale-110 transition-transform duration-300 ease-out"
               >
-                Start Tinkering
+                <span>START SOLVING</span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-[1.4em] w-[1.4em]"
+                  fill="#D57100"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M8 5v14l11-7z" />
+                </svg>
               </button>
             </div>
           </div>
@@ -149,18 +199,17 @@ export default function LevelOne({ onComplete }) {
 
         {/* Question Popup for each try */}
         {showPopup && !initialPopup && !showCompletionPopup && (
-          <div className="absolute inset-0 z-50 flex items-center justify-center">
-            <div className="p-14 px-16 pb-7 w-[600px] font-[sf-heavy] text-[#632911] border-[3.5px] border-[#632911] bg-gradient-to-b from-[#FFFAE4] to-[#E7C796] shadow-[0_0.6rem_0_rgba(0,0,0,0.3),inset_0_0.6rem_0_rgba(255,255,255,0.7),inset_0_-0.6rem_0_rgba(0,0,0,0.2)] rounded-[35px] text-2xl text-center">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+            className="absolute inset-0 z-50 flex items-center justify-center"
+          >
+            <div className="p-14 px-16 pb-16 w-[600px] font-[sf-heavy] text-[#632911] border-[3.5px] border-[#632911] bg-gradient-to-b from-[#FFFAE4] to-[#E7C796] shadow-[0_0.6rem_0_rgba(0,0,0,0.3),inset_0_0.6rem_0_rgba(255,255,255,0.7),inset_0_-0.6rem_0_rgba(0,0,0,0.2)] rounded-[35px] text-2xl text-center">
               {current.question}
-              <br />
-              <button
-                onClick={() => setShowPopup(false)}
-                className="mt-10 px-6 py-3 bg-[#632911] text-white rounded-lg text-lg"
-              >
-                Start Try {tryIndex + 1}
-              </button>
             </div>
-          </div>
+          </motion.div>
         )}
 
         {/* Level Completion Popup */}
@@ -200,7 +249,7 @@ export default function LevelOne({ onComplete }) {
             width: "70px",
             zIndex: 50,
           }}
-          animate={{ rotate: needleAngle }}
+          animate={{ rotate: currentNeedleAngle }}
           transition={{ type: "spring", stiffness: 100, damping: 10 }}
         />
 

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import logo from "../assets/logo.png";
 import cutscenes from "./cutscenes";
@@ -14,6 +14,12 @@ import topBG from "../assets/topplate.png";
 import uncle1 from "../assets/people/uncle1.png";
 import nanokaka1 from "../assets/people/nanokaka1.png";
 import uncle2 from "../assets/people/uncle2.png";
+import man1 from "../assets/people/man1.png";
+import man2 from "../assets/people/man2.png";
+import lady1 from "../assets/people/lady1.png";
+import lady2 from "../assets/people/lady2.png";
+import kid1 from "../assets/people/kid1.png";
+import kid2 from "../assets/people/kid2.png";
 
 import coinIcon from "../assets/icons/currency.png";
 import pauseIcon from "../assets/icons/pause.svg";
@@ -38,11 +44,18 @@ export default function MainScreen() {
   const [showExplanation, setShowExplanation] = useState(false);
   const [explanationIndex, setExplanationIndex] = useState(0);
   const [showHappyUncle, setShowHappyUncle] = useState(false);
-  const [showHappyUncleAfterExplanation, setShowHappyUncleAfterExplanation] = useState(false);
+  const [showHappyUncleAfterExplanation, setShowHappyUncleAfterExplanation] =
+    useState(false);
   const [currentLevel, setCurrentLevel] = useState(1);
   const [coins, setCoins] = useState(0);
-  
-  const levelComponents = [LevelOne, LevelTwo, LevelThree, LevelFour, LevelFive];
+
+  const levelComponents = [
+    LevelOne,
+    LevelTwo,
+    LevelThree,
+    LevelFour,
+    LevelFive,
+  ];
   const CurrentLevel = levelComponents[currentLevel - 1];
 
   const playClick = () => {
@@ -68,7 +81,10 @@ export default function MainScreen() {
 
   const handleNextDialog = () => {
     playClick();
-    if (dialogIndex < levelProblems[`level${currentLevel}`].problemDialog.length - 1) {
+    if (
+      dialogIndex <
+      levelProblems[`level${currentLevel}`].problemDialog.length - 1
+    ) {
       setDialogIndex((prev) => prev + 1);
     } else {
       setShowDialog(false);
@@ -85,8 +101,8 @@ export default function MainScreen() {
   const finishLevel = () => {
     // Award coins for completing the level
     const levelPrice = levelProblems[`level${currentLevel}`].Price;
-    setCoins(prev => prev + levelPrice);
-    
+    setCoins((prev) => prev + levelPrice);
+
     // Move to main screen to show level completion
     setGameState("levelCompleted");
     // Show level completion popup first, then happy uncle
@@ -104,7 +120,10 @@ export default function MainScreen() {
 
   const handleNextExplanation = () => {
     playClick();
-    if (explanationIndex < levelProblems[`level${currentLevel}`].LearningsDialog.length - 1) {
+    if (
+      explanationIndex <
+      levelProblems[`level${currentLevel}`].LearningsDialog.length - 1
+    ) {
       setExplanationIndex((prev) => prev + 1);
     } else {
       setShowExplanation(false);
@@ -125,7 +144,7 @@ export default function MainScreen() {
 
   const handleHintPurchase = (price) => {
     if (coins >= price) {
-      setCoins(prev => prev - price);
+      setCoins((prev) => prev - price);
       playClick();
       // You can add hint display logic here
       // For now, just a simple alert or console log
@@ -138,7 +157,12 @@ export default function MainScreen() {
     }
   };
 
-  const uncles = [uncle1, uncle2]; //todo 
+  const handlePrevExplanation = () => {
+    playNanoClick();
+    setExplanationIndex((prev) => Math.max(0, prev - 1));
+  };
+
+  const uncles = [uncle1, uncle2]; //todo
 
   const problems = [
     {
@@ -160,110 +184,149 @@ export default function MainScreen() {
 
   // collect price of particular level after solving the level (inside dialog box)
 
-  const levels=[]
-  const levelProblems={
-    "level1":{
-      "Name":"LevelOne",
-      "problemDialog":[
-              "Arrey beta, mera light ka instrument kaam nahi kar raha...",
-              "Lagta hai kuch wire connection mein dikkat hai...",
-              "Zara dekh ke solve kar do na...",
-            ],
-      "messageDialog":["Thank you for your help! I'll be back soon!"],
-      "CustomerBefore":uncle1,  
-      "CustomerAfter":uncle2,
-      "LearningHeading":"Magnetic Field and Compass",
-      "LearningsDialog":[
-        "Beta, ye compass needle magnetic field ke direction mein point karta hai!",
-        "Jab battery connect karte hain, toh current flow hota hai wire mein...",
-        "Current flow se magnetic field create hota hai around wire...",
-        "Compass needle is magnetic field ke direction mein align ho jata hai!",
-        "East direction ke liye positive terminal right side hona chahiye...",
-        "West direction ke liye negative terminal right side hona chahiye..."
+  const levels = [];
+  const levelProblems = {
+    level1: {
+      Name: "LevelOne",
+      problemDialog: [
+        "Arrey beta… you’ve opened up this new repair shop, na? That’s why I thought, let me come to you directly.",
+        "See this little instrument? It’s been with me for years—used to light up beautifully. I use it every evening when I sit outside with my newspaper and a cup of chai.",
+        "But yesterday, it just blinked once… and then nothing. Dead silent since then.",
+        "I think there’s some issue with the connection… or maybe the current isn’t flowing properly. Can’t say for sure, my eyes aren’t what they used to be.",
+        "Zara dekh lo na, beta. I’d really appreciate it if you could get it working again. These small things… they matter a lot when you’ve seen as many years as I have.",
       ],
-      "Price":100,
-    }, 
-    "level2":{
-      "Name":"LevelTwo",
-      "problemDialog":[
-              "Arrey beta, mera circuit mein short circuit ho gaya hai...",
-              "Koi wire touch kar rahi hai ya koi component fault hai...",
-              "Zara check karke bata do kahan problem hai...",
-            ],
-      "messageDialog":["Thank you for your help! I'll be back soon!"],
-     "CustomerBefore":uncle1,  
-      "CustomerAfter":uncle2,
-      "LearningHeading":"Short Circuit Detection",
-      "LearningsDialog":[
-        "Short circuit mein current normal path se bypass ho jata hai!",
-        "High current flow hota hai jo components ko damage kar sakta hai...",
-        "Multimeter se resistance check karke short circuit detect kar sakte hain...",
-        "Low resistance ya zero resistance short circuit ka sign hai...",
-        "Visual inspection mein overlapping wires ya damaged insulation dekh sakte hain..."
+      messageDialog: [
+        "Ahh… it’s working again! Look at that glow — just like old times. Thank you, truly. Not just for fixing a machine, but for giving an old man a bit of his routine back.",
       ],
-      "Price":150,
-    }, 
-    "level3":{
-      "Name":"LevelThree",
-      "problemDialog":[
-              "Arrey beta, mera LED bulb flicker kar raha hai...",
-              "Lagta hai voltage ya current mein koi problem hai...",
-              "Zara check karke fix kar do na...",
-            ],
-      "messageDialog":["Thank you for your help! I'll be back soon!"],
-      "CustomerBefore":uncle1,  
-      "CustomerAfter":uncle2,
-      "LearningHeading":"LED and Voltage Regulation",
-      "LearningsDialog":[
-        "LED ko specific voltage range chahiye proper glow ke liye...",
-        "Too much voltage LED ko damage kar sakta hai...",
-        "Too less voltage LED dim ya off ho jayega...",
-        "Resistor series mein connect karke voltage regulate kar sakte hain...",
-        "Ohm's Law: V = I × R, current control karke voltage regulate hota hai..."
+      CustomerBefore: uncle1,
+      CustomerAfter: uncle2,
+      LearningHeading: "Magnetic Field and Compass",
+      LearningsDialog: [
+        "A compass needle always aligns itself with the direction of the magnetic field. When a battery is connected, electric current begins to flow through the wire. This current generates a magnetic field around the wire — a basic principle of electromagnetism.",
+
+        "The compass needle senses this magnetic field and turns to align with it. To make the needle point East, the positive terminal should be on the right side of the wire. To make it point West, the positive terminal should be on the left side.",
+
+        "This follows the Right-Hand Rule — current direction determines magnetic field direction.",
       ],
-      "Price":200,
-    }, 
-    "level4":{
-      "Name":"LevelFour",
-      "problemDialog":[
-              "Arrey beta, mera motor speed control nahi ho raha...",
-              "Variable speed chahiye but constant speed aa raha hai...",
-              "Zara check karke fix kar do na...",
-            ],
-      "messageDialog":["Thank you for your help! I'll be back soon!"],
-      "CustomerBefore":uncle1,  
-      "CustomerAfter":uncle2,
-      "LearningHeading":"Motor Speed Control",
-      "LearningsDialog":[
-        "DC motor ki speed voltage aur current pe depend karti hai...",
-        "PWM (Pulse Width Modulation) se speed control kar sakte hain...",
-        "Potentiometer se voltage divide karke speed control hota hai...",
-        "Higher voltage = Higher speed, Lower voltage = Lower speed...",
-        "Variable resistor se resistance change karke current control hota hai..."
+      Price: 100,
+    },
+    level2: {
+      Name: "LevelTwo",
+      problemDialog: [
+        "Hey! So… I recently started this little DIY photography project at home.",
+        "I found this old lens lying around and thought — why not build my own light setup and play with shadows, reflections, all that artsy stuff?",
+        "But there’s a tiny problem. No matter where I place the object or how I hold the lens, the image either goes completely out of focus… or ends up in a weird spot.",
+        "I’ve been shifting things around for hours — it’s like a science puzzle I can't quite solve.",
+        "You seem to know your way around circuits and optics. Think you could help me line it all up? I just want the image to land perfectly on the backdrop — clear, sharp, cinematic.",
       ],
-      "Price":250,
-    }, 
-    "level5":{
-      "Name":"LevelFive",
-      "problemDialog":[
-              "Arrey beta, mera sensor circuit kaam nahi kar raha...",
-              "Light sensor ya temperature sensor ka output sahi nahi aa raha...",
-              "Zara check karke calibrate kar do na...",
-            ],
-      "messageDialog":["Thank you for your help! I'll be back soon!"],
-      "CustomerBefore":uncle1,  
-      "CustomerAfter":uncle2,
-      "LearningHeading":"Sensor Calibration",
-      "LearningsDialog":[
-        "Sensors ko proper calibration chahiye accurate readings ke liye...",
-        "Zero point aur sensitivity adjust karni padti hai...",
-        "Reference values se compare karke calibration hota hai...",
-        "Environmental factors affect sensor readings...",
-        "Regular calibration ensures accurate measurements..."
+      messageDialog: [
+        "Whoa… that’s exactly what I was trying to do! It’s sharp, it’s clean, it’s literally perfect. Thank you! I knew there was some science behind it, but you just made it all click. Now I can finally start shooting for real.",
       ],
-      "Price":300,
-    }, 
-}
+      CustomerBefore: lady1,
+      CustomerAfter: lady2,
+      LearningHeading: "Optics and Image Formation",
+      LearningsDialog: [
+        "Lenses bend light to form images. How and where those images appear depends on the object's position and the lens's focal length.",
+
+        "When an object is placed - beyond the focal point, the lens forms a real, inverted image on the opposite side. This type of image can be projected onto a screen.",
+
+        "When the object is within the focal length, the lens forms a virtual, upright, and magnified image — perfect for magnifying glasses or phone macro lenses.",
+
+        "By adjusting the object distance and the focal length, we can control the position and nature of the image. This is the core principle behind image formation in convex lenses.",
+      ],
+      Price: 150,
+    },
+    level3: {
+      Name: "LevelThree",
+      problemDialog: [
+        "Hey there! I’m working on repairing an old radio from my college days — still trying to keep the analog spirit alive, you know?",
+        "The sound was getting fuzzy, and turns out a few resistors inside were either burned out or mismatched.",
+        "I’ve got a whole bunch of spare resistors, but these color bands… man, they always confuse me.",
+        "Each one’s got stripes like a code language, and I need to match the exact resistance values to get the circuit stable again.",
+        "Think you could help me out? I just need to assemble a few - three to be precise - correct ones by picking the right colors in the right order. Can’t risk frying the circuit again!",
+      ],
+      messageDialog: [
+        "Perfect! That’s the exact resistance values I needed. The audio’s clean, the board’s stable — good as new! I don’t know how you did it so quickly, but you clearly understand how these color codes work. Really appreciate it, buddy!",
+      ],
+      CustomerBefore: man1,
+      CustomerAfter: man2,
+      LearningHeading: "Resistors and Color Code Reading",
+      LearningsDialog: [
+        "Resistors control the flow of electrical current in a circuit by providing resistance, measured in ohms (Ω). Each resistor has colored bands printed on it, which represent its value using a standardized color code system.",
+
+        "Typically, a 4-band resistor uses the first band for the first digit, the second band for the second digit, the third band as a multiplier (number of zeros), and the fourth band for tolerance, which indicates how accurate the resistor's value is.",
+
+        "For example, a resistor with red, violet, and orange bands would represent 27,000 ohms, or 27 kilo-ohms. Red stands for 2, violet for 7, and orange multiplies the number by 1,000. The fourth band, usually gold or silver, shows how much the value can vary from the stated resistance.",
+
+        "By matching the correct color bands to the required resistance value, we can identify or build resistors that suit specific circuit needs. This process ensures stable performance in electronic devices.",
+
+        "Learning to read resistor color codes is an essential skill in electronics, helping us understand how resistance controls current and contributes to safe and efficient circuit design.",
+      ],
+      Price: 200,
+    },
+    level4: {
+      Name: "LevelFour",
+      problemDialog: [
+        "Umm… excuse me! Can you help me with this laser game? It looked super cool, but now I’m stuck!",
+        "I pressed the laser button and it went *pew!* but then the beam just bounced off weird and missed the balloon completely.",
+        "I tried turning the mirrors, like, a hundred times… but it never hits the right spot.",
+        "I really wanna make the laser pop the balloon! That springy thing looks so fun when it goes off.",
+        "Can you figure out how to bounce it the right way? I think it’s something about angles… but I don’t get how they work!",
+      ],
+      messageDialog: [
+        "Whoa!! It worked! The laser hit the balloon and it popped just like in the video! That was AWESOME. You’re like a laser master or something. I wanna try the next puzzle now!",
+      ],
+      CustomerBefore: kid1,
+      CustomerAfter: kid2,
+      LearningHeading: "Reflection on Straight mirror",
+      LearningsDialog: [
+        "When light hits a smooth surface like a mirror, it bounces off. This is called reflection. The key rule is: the angle it hits the mirror (called the angle of incidence) is exactly equal to the angle it bounces off (called the angle of reflection).",
+
+        "In this puzzle, the laser beam follows this rule. If a mirror is tilted just right, the laser beam will reflect perfectly and hit the target. But if the angle is even a little off, the beam goes in the wrong direction.",
+
+        "By rotating mirrors and observing the laser path, you learn how light behaves. This helps in understanding real-world optics, like how periscopes, telescopes, and even cat eyes work.",
+
+        "Solving these kinds of puzzles helps build spatial reasoning, understanding of angles, and real physics concepts — all while having fun!",
+      ],
+      Price: 250,
+    },
+    level5: {
+      Name: "LevelFive",
+      problemDialog: [
+        "Ah, there you are. I’ve been watching your progress — fixing gadgets, aligning beams, choosing resistors... quite impressive.",
+        "But now, it’s time for something different. No tools, no mirrors, no wires — just your mind.",
+        "You’ve learned the principles behind circuits, optics, resistance, and reflection. Let’s see if you can recall them.",
+        "I’ve prepared a quick set of questions — multiple choice. Simple, but only if you’ve been paying attention.",
+        "Think of this as your final test for this stage. Ready? Let’s begin.",
+      ],
+      messageDialog: [
+        "Well done. Your answers show clarity, understanding, and growth. Keep that spark alive. The real world has many more puzzles waiting for you.",
+      ],
+      CustomerBefore: uncle1,
+      CustomerAfter: uncle2,
+      LearningHeading: "Concept Recap & Knowledge Check",
+      LearningsDialog: [
+        "This level serves as a checkpoint to reinforce all major concepts you've learned so far:",
+
+        "From Level 1 — understanding magnetic fields and the right-hand rule when current flows through a wire.",
+
+        "From Level 2 — how lenses form real or virtual images depending on object position and focal length.",
+
+        "From Level 3 — how resistors work, how to decode color bands to calculate resistance, and their role in controlling current.",
+
+        "From Level 4 — how light reflects off mirrors, following the law of reflection (angle in equals angle out), and how laser paths can be manipulated using precise angles.",
+
+        "This quiz tests your core understanding, memory, and application of physics principles — a perfect blend of theory and practice.",
+      ],
+      Price: 300,
+    },
+  };
+
+  useEffect(() => {
+    if (showExplanation) {
+      playNanoClick();
+    }
+  }, [showExplanation]);
 
   return (
     <div className="w-screen h-screen relative overflow-hidden">
@@ -284,7 +347,11 @@ export default function MainScreen() {
             <motion.div className="absolute -bottom-15 left-[63%] -translate-x-1/2 w-[530px] z-10">
               <motion.img
                 key={`uncle-${currentUncle}`}
-                src={showHappyUncle || showHappyUncleAfterExplanation ? levelProblems[`level${currentLevel}`].CustomerAfter : levelProblems[`level${currentLevel}`].CustomerBefore}
+                src={
+                  showHappyUncle || showHappyUncleAfterExplanation
+                    ? levelProblems[`level${currentLevel}`].CustomerAfter
+                    : levelProblems[`level${currentLevel}`].CustomerBefore
+                }
                 alt="Uncle Character"
                 className="w-full"
                 initial={{ opacity: 0, y: 30 }}
@@ -317,20 +384,22 @@ export default function MainScreen() {
             </motion.div>
 
             {/* ❓ Button outside uncle */}
-            {!showDialog && !showHappyUncle && !showHappyUncleAfterExplanation && (
-              <div className="absolute bottom-170 left-[63%] -translate-x-1/2 flex flex-col items-center z-[40] pointer-events-auto">
-                <div className="absolute w-15 h-15 rounded-full bg-[#8AEEF5] opacity-90 animate-ping" />
-                <button
-                  onClick={() => {
-                    playClick();
-                    setShowDialog(true);
-                  }}
-                  className="relative w-15 h-15 rounded-full flex items-center justify-center text-[#632911] border-[3.5px] border-[#632911] bg-gradient-to-b from-[#8AEEF5] to-[#22C9D8] shadow-[0_0.2rem_0_rgba(62,22,1,1),inset_0_0.3rem_0_rgba(255,255,255,0.4),inset_0_-0.3rem_0_rgba(0,0,0,0.3)] border-radius-smooth hover:scale-125 transition-transform duration-300 ease-out cursor-pointer font-[sf-heavy] text-[2rem]"
-                >
-                  ?
-                </button>
-              </div>
-            )}
+            {!showDialog &&
+              !showHappyUncle &&
+              !showHappyUncleAfterExplanation && (
+                <div className="absolute bottom-170 left-[63%] -translate-x-1/2 flex flex-col items-center z-[40] pointer-events-auto">
+                  <div className="absolute w-15 h-15 rounded-full bg-[#8AEEF5] opacity-90 animate-ping" />
+                  <button
+                    onClick={() => {
+                      playClick();
+                      setShowDialog(true);
+                    }}
+                    className="relative w-15 h-15 rounded-full flex items-center justify-center text-[#632911] border-[3.5px] border-[#632911] bg-gradient-to-b from-[#8AEEF5] to-[#22C9D8] shadow-[0_0.2rem_0_rgba(62,22,1,1),inset_0_0.3rem_0_rgba(255,255,255,0.4),inset_0_-0.3rem_0_rgba(0,0,0,0.3)] border-radius-smooth hover:scale-125 transition-transform duration-300 ease-out cursor-pointer font-[sf-heavy] text-[2rem]"
+                  >
+                    ?
+                  </button>
+                </div>
+              )}
           </>
         )}
 
@@ -346,9 +415,7 @@ export default function MainScreen() {
         {/* Happy Uncle After Explanation Message */}
         {showHappyUncleAfterExplanation && gameState === "main" && (
           <div className="absolute top-30 left-1/2 transform -translate-x-1/2 px-8 py-6 max-w-3xl z-30 font-[sf-heavy] text-[#632911] border-[3.5px] border-[#632911] bg-gradient-to-b from-[#FFFAE4] to-[#E7C796] shadow-[0_0.4rem_0_rgba(0,0,0,0.3),inset_0_0.4rem_0_rgba(255,255,255,0.7),inset_0_-0.4rem_0_rgba(0,0,0,0.2)] rounded-[25px] border-radius-smooth text-center">
-            <p className="text-2xl mb-4">
-              Ready for the next challenge!
-            </p>
+            <p className="text-2xl mb-4">Ready for the next challenge!</p>
           </div>
         )}
 
@@ -401,7 +468,7 @@ export default function MainScreen() {
             <img src={icon} alt={`icon-${i}`} className="w-6 h-6" />
           </button>
         ))}
-        <button
+        {/* <button
           key="music-toggle"
           onClick={() => {
             window.dispatchEvent(new CustomEvent("toggle-music"));
@@ -440,7 +507,7 @@ export default function MainScreen() {
               <line x1="16" x2="22" y1="9" y2="15" />
             </svg>
           )}
-        </button>
+        </button> */}
       </div>
 
       <button
@@ -480,7 +547,8 @@ export default function MainScreen() {
           <p className="text-2xl mb-4">
             {levelProblems[`level${currentLevel}`].problemDialog[dialogIndex]}
           </p>
-          {dialogIndex < levelProblems[`level${currentLevel}`].problemDialog.length - 1 ? (
+          {dialogIndex <
+          levelProblems[`level${currentLevel}`].problemDialog.length - 1 ? (
             <button
               onClick={handleNextDialog}
               className="bg-orange-500 text-white px-4 py-2 rounded"
@@ -536,21 +604,26 @@ export default function MainScreen() {
                   NANO KAKA Explains!
                 </span>
               </h2>
-              
+
               {/* Progress Indicator */}
               <div className="flex items-center gap-2 mt-2">
                 <span className="text-lg text-[#632911]">
-                  Step {explanationIndex + 1} of {levelProblems[`level${currentLevel}`].LearningsDialog.length}
+                  Step {explanationIndex + 1} of{" "}
+                  {levelProblems[`level${currentLevel}`].LearningsDialog.length}
                 </span>
                 <div className="flex gap-1">
-                  {levelProblems[`level${currentLevel}`].LearningsDialog.map((_, index) => (
-                    <div
-                      key={index}
-                      className={`w-3 h-3 rounded-full ${
-                        index <= explanationIndex ? 'bg-[#632911]' : 'bg-gray-300'
-                      }`}
-                    />
-                  ))}
+                  {levelProblems[`level${currentLevel}`].LearningsDialog.map(
+                    (_, index) => (
+                      <div
+                        key={index}
+                        className={`w-3 h-3 rounded-full ${
+                          index <= explanationIndex
+                            ? "bg-[#632911]"
+                            : "bg-gray-300"
+                        }`}
+                      />
+                    )
+                  )}
                 </div>
               </div>
             </div>
@@ -561,24 +634,105 @@ export default function MainScreen() {
                 {/* Text Content */}
                 <div className="flex-1">
                   <p className="text-2xl leading-relaxed">
-                    {levelProblems[`level${currentLevel}`].LearningsDialog[explanationIndex]}
+                    {
+                      levelProblems[`level${currentLevel}`].LearningsDialog[
+                        explanationIndex
+                      ]
+                    }
                   </p>
                 </div>
 
                 {/* Character Illustration */}
                 <div className="w-[450px] h-auto pointer-events-none">
-                  <img src={nanokaka1} alt="Nano Kaka" className="w-full h-auto" />
+                  <img
+                    src={nanokaka1}
+                    alt="Nano Kaka"
+                    className="w-full h-auto"
+                  />
                 </div>
               </div>
             </div>
 
             {/* Navigation Button - Fixed Position */}
-            <div className="flex justify-center mt-8 mb-4">
+            <div className="absolute bottom-15 left-12 flex gap-6 z-50">
+              {/* Back Button */}
+              {explanationIndex > 0 && (
+                <button
+                  onClick={handlePrevExplanation}
+                  className="px-3 pr-6 py-3 cursor-pointer flex items-center gap-2
+      text-xl font-[sf-heavy] text-[#632911] border-[3.5px] border-[#632911]
+      bg-gradient-to-b from-[#FEC547] to-[#F3A01C]
+      shadow-[0_0.3rem_0_rgba(62,22,1,1),inset_0_0.3rem_0_rgba(255,246,133,0.5),inset_0_-0.3rem_0_rgba(207,102,8,0.6)]
+      rounded-[18px] hover:scale-110 transition-transform duration-300 ease-out"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-[1.4em] w-[1.4em] rotate-180"
+                    fill="#D57100"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                  <span>BACK</span>
+                </button>
+              )}
+
+              {/* Next / Final Button */}
               <button
-                onClick={handleNextExplanation}
-                className="px-12 py-6 bg-gradient-to-b from-[#FEC547] to-[#F3A01C] text-[#632911] border-[4px] border-[#632911] shadow-[0_0.6rem_0_rgba(62,22,1,1),inset_0_0.6rem_0_rgba(255,246,133,0.5),inset_0_-0.6rem_0_rgba(207,102,8,0.6)] rounded-[20px] text-3xl font-[sf-heavy] hover:scale-110 transition-transform duration-300 ease-out"
+                onClick={() => {
+                  if (
+                    explanationIndex <
+                    levelProblems[`level${currentLevel}`].LearningsDialog
+                      .length -
+                      1
+                  ) {
+                    handleNextExplanation();
+                  } else {
+                    playNanoByeClick();
+                    setShowExplanation(false);
+                    setShowHappyUncleAfterExplanation(true);
+                    setTimeout(() => {
+                      setShowHappyUncleAfterExplanation(false);
+                      if (currentLevel < 5) {
+                        setCurrentLevel((prev) => prev + 1);
+                        setDialogIndex(0);
+                        setGameState("main");
+                      } else {
+                        setGameState("completed");
+                      }
+                    }, 2000);
+                  }
+                }}
+                className="px-3 pl-6 py-3 cursor-pointer flex items-center gap-2
+    text-xl font-[sf-heavy] text-[#632911] border-[3.5px] border-[#632911]
+    bg-gradient-to-b from-[#FEC547] to-[#F3A01C]
+    shadow-[0_0.3rem_0_rgba(62,22,1,1),inset_0_0.3rem_0_rgba(255,246,133,0.5),inset_0_-0.3rem_0_rgba(207,102,8,0.6)]
+    rounded-[18px] hover:scale-110 transition-transform duration-300 ease-out"
               >
-                {explanationIndex < levelProblems[`level${currentLevel}`].LearningsDialog.length - 1 ? "Next Step" : "Got It!"}
+                <span>
+                  {explanationIndex <
+                  levelProblems[`level${currentLevel}`].LearningsDialog.length -
+                    1
+                    ? "NEXT"
+                    : "UNDERSTOOD"}
+                </span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-[1.4em] w-[1.4em]"
+                  fill="#D57100"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d={
+                      explanationIndex <
+                      levelProblems[`level${currentLevel}`].LearningsDialog
+                        .length -
+                        1
+                        ? "M8 5v14l11-7z"
+                        : "M9 16.2l-3.5-3.5 1.4-1.4L9 13.4l7.1-7.1 1.4 1.4z"
+                    }
+                  />
+                </svg>
               </button>
             </div>
           </div>
@@ -649,9 +803,9 @@ export default function MainScreen() {
                   onClick={() => handleHintPurchase(price)}
                   disabled={coins < price}
                   className={`flex flex-col items-center justify-center px-6 py-4 rounded-[18px] shadow-[0_0.3rem_0_rgba(100,60,0,0.4)] border-[3px] border-[#7B3D00] hover:scale-105 transition-transform duration-300 ease-out ${
-                    coins < price 
-                      ? 'bg-gray-400 opacity-50 cursor-not-allowed' 
-                      : 'bg-[#FCD472] cursor-pointer'
+                    coins < price
+                      ? "bg-gray-400 opacity-50 cursor-not-allowed"
+                      : "bg-[#FCD472] cursor-pointer"
                   }`}
                 >
                   <img src={bulbIcon} alt="Hint" className="w-10 h-10 mb-1" />
@@ -672,7 +826,7 @@ export default function MainScreen() {
         <>
           <motion.div
             key="main-bg"
-            className="absolute inset-0 bg-cover bg-center z-30"
+            className="absolute inset-0 bg-cover bg-center z-20"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -687,9 +841,15 @@ export default function MainScreen() {
       {gameState === "levelCompleted" && (
         <div className="absolute inset-0 z-50 flex items-center justify-center">
           <div className="p-14 px-16 pb-7 w-[600px] font-[sf-heavy] text-[#632911] border-[3.5px] border-[#632911] bg-gradient-to-b from-[#FFFAE4] to-[#E7C796] shadow-[0_0.6rem_0_rgba(0,0,0,0.3),inset_0_0.6rem_0_rgba(255,255,255,0.7),inset_0_-0.6rem_0_rgba(0,0,0,0.2)] rounded-[35px] text-2xl text-center">
-            <h2 className="text-4xl mb-4">🎉 Level {currentLevel} Complete! 🎉</h2>
-            <p className="text-xl mb-6">You have successfully completed Level {currentLevel}!</p>
-            <p className="text-lg">You earned {levelProblems[`level${currentLevel}`].Price} coins!</p>
+            <h2 className="text-4xl mb-4">
+              🎉 Level {currentLevel} Complete! 🎉
+            </h2>
+            <p className="text-xl mb-6">
+              You have successfully completed Level {currentLevel}!
+            </p>
+            <p className="text-lg">
+              You earned {levelProblems[`level${currentLevel}`].Price} coins!
+            </p>
           </div>
         </div>
       )}
@@ -699,7 +859,9 @@ export default function MainScreen() {
           <div className="p-14 px-16 pb-7 w-[600px] font-[sf-heavy] text-[#632911] border-[3.5px] border-[#632911] bg-gradient-to-b from-[#FFFAE4] to-[#E7C796] shadow-[0_0.6rem_0_rgba(0,0,0,0.3),inset_0_0.6rem_0_rgba(255,255,255,0.7),inset_0_-0.6rem_0_rgba(0,0,0,0.2)] rounded-[35px] text-2xl text-center">
             <h2 className="text-4xl mb-4">🎉 Congratulations! 🎉</h2>
             <p className="text-xl mb-6">You have completed all levels!</p>
-            <p className="text-lg">You are now a master of electrical concepts!</p>
+            <p className="text-lg">
+              You are now a master of electrical concepts!
+            </p>
           </div>
         </div>
       )}
