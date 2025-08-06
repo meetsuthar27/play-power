@@ -114,8 +114,8 @@ export default function MainScreen() {
         // Then show Nano Kaka explanation
         setShowExplanation(true);
         setExplanationIndex(0);
-      }, 2000);
-    }, 3000); // Show completion message for 3 seconds
+      }, 6000);
+    }, 5000); // Show completion message for 3 seconds
   };
 
   const handleNextExplanation = () => {
@@ -293,14 +293,14 @@ export default function MainScreen() {
     level5: {
       Name: "LevelFive",
       problemDialog: [
-        "Ah, there you are. I’ve been watching your progress — fixing gadgets, aligning beams, choosing resistors... quite impressive.",
-        "But now, it’s time for something different. No tools, no mirrors, no wires — just your mind.",
-        "You’ve learned the principles behind circuits, optics, resistance, and reflection. Let’s see if you can recall them.",
-        "I’ve prepared a quick set of questions — multiple choice. Simple, but only if you’ve been paying attention.",
-        "Think of this as your final test for this stage. Ready? Let’s begin.",
+        "You there! Yes, you. I’ve been hearing a lot about this little 'repair shop' of yours...",
+        "Fixing circuits, bouncing lasers, assembling resistors — quite the little scientist now, aren’t we?",
+        "But while you're playing technician and puzzle master, may I ask — what about your actual physics homework? Your notebook’s still empty!",
+        "You think real learning is just running around solving puzzles? It’s time to prove that you've actually understood what you've been doing.",
+        "Sit down. No tools. No dragging mirrors. Just questions — and I expect correct answers. Understood?",
       ],
       messageDialog: [
-        "Well done. Your answers show clarity, understanding, and growth. Keep that spark alive. The real world has many more puzzles waiting for you.",
+        "Hmm… well, well. Look at that. You’ve answered them all — and not just correctly, but confidently... Seems like all those puzzles did teach you something after all. I’m proud of you. Keep going. The world needs sharp minds like yours — both curious and disciplined.",
       ],
       CustomerBefore: uncle1,
       CustomerAfter: uncle2,
@@ -551,14 +551,20 @@ export default function MainScreen() {
           levelProblems[`level${currentLevel}`].problemDialog.length - 1 ? (
             <button
               onClick={handleNextDialog}
-              className="bg-orange-500 text-white px-4 py-2 rounded"
+              className="px-4 py-2 mb-3 text-xl cursor-pointer hover:scale-110 transition-transform duration-300 ease-out
+                    [border-radius:18px] [border-radius-smooth:0.6] font-[sf-heavy] text-[#632911] border-[3.5px] border-[#632911] 
+                    bg-gradient-to-b from-[#FEC547] to-[#F3A01C] 
+                    shadow-[0_0.3rem_0_rgba(62,22,1,1),inset_0_0.3rem_0_rgba(255,246,133,0.5),inset_0_-0.3rem_0_rgba(207,102,8,0.6)]"
             >
               Next
             </button>
           ) : (
             <button
               onClick={handleSolve}
-              className="bg-yellow-500 text-[#632911] px-4 py-2 rounded"
+              className="px-4 py-2 mb-3 text-xl cursor-pointer hover:scale-110 transition-transform duration-300 ease-out
+                    [border-radius:18px] [border-radius-smooth:0.6] font-[sf-heavy] text-[#632911] border-[3.5px] border-[#632911] 
+                    bg-gradient-to-b from-[#8AEEF5] to-[#22C9D8] 
+                    shadow-[0_0.3rem_0_rgba(62,22,1,1),inset_0_0.3rem_0_rgba(255,255,255,0.4),inset_0_-0.3rem_0_rgba(0,0,0,0.3)]"
             >
               Solve
             </button>
