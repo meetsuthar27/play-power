@@ -49,6 +49,17 @@ You're guided by **Nano Kaka**, a retired science teacher turned hilarious AI as
 
 ## 🧠 Levels Overview
 
+Our game follows a structured **[1, 2, 3, 4 → 5]** format:
+
+- The first **four levels** are interactive, hands-on problem-solving challenges.
+- The **fifth level** serves as a lightweight **checkpoint quiz**, reinforcing what the player has learned in an engaging, non-intimidating way.
+
+This structure maintains a balanced rhythm between exploration and reflection — allowing learners to grasp physics concepts through gameplay and then test their understanding.
+
+Each level explores a different domain of physics, showcasing the educational breadth of the format. The prototype is intentionally limited to **five levels** to ensure quality, polish, and depth — with each supported by high-quality assets, storytelling, and meaningful interaction.
+
+### 🔍 Level Breakdown
+
 | Level | Title                       | Physics Concept                          |
 | ----- | --------------------------- | ---------------------------------------- |
 | 1     | Magnetic Circuits & Compass | Electromagnetism, Magnetic Fields        |
@@ -56,8 +67,6 @@ You're guided by **Nano Kaka**, a retired science teacher turned hilarious AI as
 | 3     | Resistor Code Builder       | Resistor color codes, Practical circuits |
 | 4     | Laser & Mirror Puzzle       | Reflection, Spatial Reasoning            |
 | 5     | Physics Recap Quiz          | Knowledge checkpoint                     |
-
----
 
 ## 🌍 Art & Visual Direction
 
@@ -147,18 +156,21 @@ Special thanks to the **Playpower EdSprint Hackathon** organizers and mentors, a
 ## 📸 Screenshots
 
 - Main Screen
-  ![alt text](<image 6.png>)
+
+  ![alt text](main_screen.png)
 
 - Customer Dialogue
-<div align="center">
-  <img src="image 12.png" alt="Customer Dialogue 1" width="49%" />
-  <img src="image 13.png" alt="Customer Dialogue 2" width="49%" />
-</div>
+
+<di2 align="center">
+  <img src="screen_1.png" alt="Customer Dialogue 1" width="49%" />
+  <img src="screen_2.png" alt="Customer Dialogue 2" width="49%" />
+</di2>
 
 - Tinker Table (Repair Mode)
+
 <div align="center">
-  <img src="hel01.png" alt="table 1" width="49%" />
-  <img src="hel01.png" alt="table 2" width="49%" />
+  <img src="screen_3.png" alt="table 1" width="49%" />
+  <img src="screen_4.png" alt="table 2" width="49%" />
 </div>
 
 ---
