@@ -1,9 +1,8 @@
 # 🎮 PlayPower: Fix-It
 
-An award-winning physics-based educational simulation game — built during the **Playpower EdSprint Hackathon** as part of **The Vibe Coding and Design Challenge**.
+A physics-based educational simulation game — built during the **Playpower EdSprint Hackathon** as part of **The Vibe Coding and Design Challenge**.
 
-> **By:** [Meet Suthar](https://www.linkedin.com/in/meet-suthar-03126a257/) (Frontend, UI/UX, Game Assets)  
-> **&** [Bhavya Prajapati](https://www.linkedin.com/in/bhavya-prajapati1) (Backend, Full Stack Dev)
+> **By** [Meet Suthar](https://www.linkedin.com/in/meet-suthar-03126a257/) (Frontend, UI/UX, Game Assets) **&** [Bhavya Prajapati](https://www.linkedin.com/in/bhavya-prajapati1) (Backend, Full Stack Dev)
 
 ---
 
@@ -147,24 +146,20 @@ Special thanks to the **Playpower EdSprint Hackathon** organizers and mentors, a
 
 ## 📸 Screenshots
 
-> _(Add screenshots here if you're showcasing on GitHub, Itch.io, or Devfolio)_
-
 - Main Screen
+  ![alt text](<image 6.png>)
+
 - Customer Dialogue
+  ![alt text](<image 12.png>) ![alt text](<image 13.png>)
+
 - Tinker Table (Repair Mode)
-- Level Completion Popup
-
----
-
-## 📚 License
-
-This project is under the **MIT License** – feel free to explore, remix, and build upon it for educational use.
+  ![alt text](hel01.png) ![alt text](hel02.png)
 
 ---
 
 ## 💬 Feedback?
 
 We’d love to hear your thoughts!  
-Feel free to [open an issue](https://github.com/meetsuthar27/play-power/issues) or [drop us a message](https://www.linkedin.com/in/meet-suthar-03126a257/).
+Feel free to [drop us a message](https://www.linkedin.com/in/meet-suthar-03126a257/).
 
 ---
