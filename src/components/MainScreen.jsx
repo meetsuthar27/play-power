@@ -1,25 +1,25 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import logo from "../assets/logo.png";
 import cutscenes from "./cutscenes";
 import clickSound from "../assets/sound/click2.mp3";
 import inventorySound from "../assets/sound/inventory.mp3";
 import nanoSound from "../assets/sound/nano.mp3";
 import nanoByeSound from "../assets/sound/nanobye.mp3";
 import entrySound from "../assets/sound/entry.mp3";
-import mainBG from "../assets/final.png";
-import tableBG from "../assets/table.png";
-import upperBG from "../assets/upperplate.png";
-import topBG from "../assets/topplate.png";
-import uncle1 from "../assets/people/uncle1.png";
-import nanokaka1 from "../assets/people/nanokaka1.png";
-import uncle2 from "../assets/people/uncle2.png";
-import man1 from "../assets/people/man1.png";
-import man2 from "../assets/people/man2.png";
-import lady1 from "../assets/people/lady1.png";
-import lady2 from "../assets/people/lady2.png";
-import kid1 from "../assets/people/kid1.png";
-import kid2 from "../assets/people/kid2.png";
+import mainBG from "../assets/final.avif";
+import tableBG from "../assets/table.avif";
+import upperBG from "../assets/upperplate.avif";
+import topBG from "../assets/topplate.avif";
+import uncle1 from "../assets/people/uncle1.avif";
+import nanokaka1 from "../assets/people/nanokaka1.avif";
+import nanokaka2 from "../assets/people/nanokaka2.avif";
+import uncle2 from "../assets/people/uncle2.avif";
+import man1 from "../assets/people/man1.avif";
+import man2 from "../assets/people/man2.avif";
+import lady1 from "../assets/people/lady1.avif";
+import lady2 from "../assets/people/lady2.avif";
+import kid1 from "../assets/people/kid1.avif";
+import kid2 from "../assets/people/kid2.avif";
 
 import coinIcon from "../assets/icons/currency.png";
 import pauseIcon from "../assets/icons/pause.svg";
@@ -405,7 +405,7 @@ export default function MainScreen() {
 
         {/* Happy Uncle Message */}
         {showHappyUncle && gameState === "main" && (
-          <div className="absolute top-30 left-1/2 transform -translate-x-1/2 px-8 py-6 max-w-3xl z-30 font-[sf-heavy] text-[#632911] border-[3.5px] border-[#632911] bg-gradient-to-b from-[#FFFAE4] to-[#E7C796] shadow-[0_0.4rem_0_rgba(0,0,0,0.3),inset_0_0.4rem_0_rgba(255,255,255,0.7),inset_0_-0.4rem_0_rgba(0,0,0,0.2)] rounded-[25px] border-radius-smooth text-center">
+          <div className="absolute top-10 left-1/2 transform -translate-x-1/2 px-8 py-6 px-6 py-4 w-[70%] z-30 font-[sf-heavy] text-[#632911] border-[3.5px] border-[#632911] bg-gradient-to-b from-[#FFFAE4] to-[#E7C796] shadow-[0_0.4rem_0_rgba(0,0,0,0.3),inset_0_0.4rem_0_rgba(255,255,255,0.7),inset_0_-0.4rem_0_rgba(0,0,0,0.2)] rounded-[25px] border-radius-smooth text-center">
             <p className="text-2xl mb-4">
               {levelProblems[`level${currentLevel}`].messageDialog[0]}
             </p>
@@ -543,7 +543,7 @@ export default function MainScreen() {
       </button>
 
       {showDialog && (
-        <div className="absolute top-30 left-1/2 transform -translate-x-1/2 px-8 py-6 max-w-3xl z-30 font-[sf-heavy] text-[#632911] border-[3.5px] border-[#632911] bg-gradient-to-b from-[#FFFAE4] to-[#E7C796] shadow-[0_0.4rem_0_rgba(0,0,0,0.3),inset_0_0.4rem_0_rgba(255,255,255,0.7),inset_0_-0.4rem_0_rgba(0,0,0,0.2)] rounded-[25px] border-radius-smooth">
+        <div className="absolute top-10 left-1/2 transform -translate-x-1/2 px-6 py-4 w-[70%] z-30 font-[sf-heavy] text-[#632911] border-[3.5px] border-[#632911] bg-gradient-to-b from-[#FFFAE4] to-[#E7C796] shadow-[0_0.4rem_0_rgba(0,0,0,0.3),inset_0_0.4rem_0_rgba(255,255,255,0.7),inset_0_-0.4rem_0_rgba(0,0,0,0.2)] rounded-[25px] border-radius-smooth">
           <p className="text-2xl mb-4">
             {levelProblems[`level${currentLevel}`].problemDialog[dialogIndex]}
           </p>
@@ -612,24 +612,38 @@ export default function MainScreen() {
               </h2>
 
               {/* Progress Indicator */}
-              <div className="flex items-center gap-2 mt-2">
-                <span className="text-lg text-[#632911]">
-                  Step {explanationIndex + 1} of{" "}
-                  {levelProblems[`level${currentLevel}`].LearningsDialog.length}
-                </span>
-                <div className="flex gap-1">
-                  {levelProblems[`level${currentLevel}`].LearningsDialog.map(
-                    (_, index) => (
-                      <div
-                        key={index}
-                        className={`w-3 h-3 rounded-full ${
-                          index <= explanationIndex
-                            ? "bg-[#632911]"
-                            : "bg-gray-300"
-                        }`}
-                      />
-                    )
-                  )}
+              <div className="flex flex-col items-start">
+                <div className="flex items-center gap-2 mt-2">
+                  <span className="text-lg text-[#632911]">
+                    Point {explanationIndex + 1} of{" "}
+                    {
+                      levelProblems[`level${currentLevel}`].LearningsDialog
+                        .length
+                    }
+                  </span>
+                  <div className="flex gap-1">
+                    {levelProblems[`level${currentLevel}`].LearningsDialog.map(
+                      (_, index) => (
+                        <div
+                          key={index}
+                          className={`w-3 h-3 rounded-full ${
+                            index <= explanationIndex
+                              ? "bg-[#632911]"
+                              : "bg-gray-300"
+                          }`}
+                        />
+                      )
+                    )}
+                  </div>
+                </div>
+                <div className="w-[60%] mt-10">
+                  <p className="text-4xl leading-12 font-[sf-semibold]">
+                    {
+                      levelProblems[`level${currentLevel}`].LearningsDialog[
+                        explanationIndex
+                      ]
+                    }
+                  </p>
                 </div>
               </div>
             </div>
@@ -638,24 +652,15 @@ export default function MainScreen() {
             <div className="flex-1 flex flex-col justify-center">
               <div className="flex gap-8 items-start">
                 {/* Text Content */}
-                <div className="flex-1">
-                  <p className="text-2xl leading-relaxed">
-                    {
-                      levelProblems[`level${currentLevel}`].LearningsDialog[
-                        explanationIndex
-                      ]
-                    }
-                  </p>
-                </div>
 
                 {/* Character Illustration */}
-                <div className="w-[450px] h-auto pointer-events-none">
-                  <img
-                    src={nanokaka1}
-                    alt="Nano Kaka"
-                    className="w-full h-auto"
-                  />
-                </div>
+              </div>
+              <div className="absolute right-20 bottom-0 w-[450px] h-auto pointer-events-none ">
+                <img
+                  src={nanokaka2}
+                  alt="Nano Kaka"
+                  className="w-full h-auto"
+                />
               </div>
             </div>
 
@@ -866,7 +871,7 @@ export default function MainScreen() {
             <h2 className="text-4xl mb-4">🎉 Congratulations! 🎉</h2>
             <p className="text-xl mb-6">You have completed all levels!</p>
             <p className="text-lg">
-              You are now a master of electrical concepts!
+              You are now a little master of Physics concepts!
             </p>
           </div>
         </div>

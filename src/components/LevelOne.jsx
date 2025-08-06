@@ -1,9 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
-import compass from "../assets/level1/compass.png";
-import wire from "../assets/level1/wire.png";
-import needle from "../assets/level1/needle.png";
-import cell from "../assets/level1/cell.png";
+import compass from "../assets/level1/compass.avif";
+import wire from "../assets/level1/wire.avif";
+import needle from "../assets/level1/needle.avif";
+import cell from "../assets/level1/cell.avif";
 
 const CONFIGS = [
   {

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import logo from "../assets/logo.png";
+import logo from "../assets/logo.avif";
 import cutscenes from "./cutscenes"; // Array of { bg, text }
 import clickSound from "../assets/sound/click2.mp3";
 import entrySound from "../assets/sound/entry.mp3";

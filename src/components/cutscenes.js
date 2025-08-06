@@ -1,9 +1,9 @@
-import cutscene1 from "../assets/cutscene1.png";
-import cutscene2 from "../assets/cutscene2.png";
-import cutscene3 from "../assets/cutscene3.png";
-import cutscene4 from "../assets/cutscene4.png";
-import cutscene5 from "../assets/cutscene5.png";
-import finalStart from "../assets/final.png";
+import cutscene1 from "../assets/cutscene1.avif";
+import cutscene2 from "../assets/cutscene2.avif";
+import cutscene3 from "../assets/cutscene3.avif";
+import cutscene4 from "../assets/cutscene4.avif";
+import cutscene5 from "../assets/cutscene5.avif";
+import finalStart from "../assets/final.avif";
 
 // Shared class for text styling
 const sharedTextStyles =

@@ -171,7 +171,7 @@ const Popup = ({
     initial: {
       title: `Welcome to Level ${level}`,
       description:
-        "A 4-band resistor problem will be shown. Your goal is to match its color code to the target resistance value within the time limit.",
+        "A 4-band resistor problem will be shown. Your goal is to match its color code to the target resistance value within the time limit.\nTo change the colour of the resistor bands, click on them.\nThe first two bands represent digits, the third is a multiplier, and the fourth is tolerance.",
       buttonText: "START SOLVING",
       onClick: onStart,
     },
